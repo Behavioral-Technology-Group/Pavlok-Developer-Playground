@@ -6,14 +6,15 @@ function sendRequest(){
 	 $("#run").button("loading");
 	
 	//(3) Send the AJAX request
-	$("#run").button("reset");
-
 	$.ajax("/run", {
 		"data": JSON.stringify({
 			"code": code,
 		}),
 		"method": "POST",
-		
+	})
+	.done(function(message){
+		alert(message);
+		$("#run").button("reset");
 	});
 };
 

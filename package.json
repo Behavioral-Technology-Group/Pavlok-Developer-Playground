@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground#readme",
   "dependencies": {
     "express": "^4.13.4",
-    "pavlok-beta-api-login": "^2.0.0"
+    "pavlok-beta-api-login": "^2.0.0",
+    "sandbox": "^0.8.6",
+    "sandcastle": "^1.3.3"
   }
 }
