@@ -32,6 +32,14 @@ app.get("/", function(req, res){
 		pavlok.auth(req, res);
 	}
 });
+app.get("/logout", function(req, res){
+	if(pavlok.isLoggedIn(req)){
+		pavlok.logout(req);
+		return res.status(200).send("Logged out.");
+	} else {
+		return res.status(404).send("You weren't signed in.");
+	}
+});
 
 //Start the server
 app.listen(process.env.PORT, function(){
