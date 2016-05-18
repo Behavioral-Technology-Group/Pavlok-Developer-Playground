@@ -27,6 +27,7 @@ pavlok.getToken = function(request){
 
 //Serve the pages
 app.get("/", function(req, res){
+	console.log(pavlok.getToken());
 	if(pavlok.isLoggedIn(req)){
 		return res.redirect("index.html");
 	} else {
