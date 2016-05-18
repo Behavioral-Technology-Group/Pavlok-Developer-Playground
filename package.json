@@ -1,0 +1,24 @@
+{
+  "name": "pavlok_developer_playground",
+  "version": "0.0.1",
+  "description": "Code for your Pavlok.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground.git"
+  },
+  "author": "Maclyn Brandwein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground/issues"
+  },
+  "homepage": "https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "pavlok-beta-api-login": "^2.0.0"
+  }
+}
