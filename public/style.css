@@ -1,0 +1,25 @@
+#title-bar {
+	width: 100%;
+	margin: 1em 1em 1em 1em;
+}
+
+#logout-button {
+	margin-left: 0.5em;
+	font-size: 0.6em;
+}
+
+#run {
+	display: block;
+	margin-left: 1em;
+	margin-top: 1em;
+	width: 8em;
+}
+
+#result {
+	display: block;
+	margin: 1em;
+	padding: 1em;
+	font-size: 1.25em;
+	background-color: #cccccc;
+	width: 90%;
+}

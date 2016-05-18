@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>Pavlok Developer Playground</title>
+		
+		<!-- Custom CS/Javascript -->
+		<link rel="stylesheet" href="style.css">
+		
+		<!-- Libraries: Bootstrap and jQuery, because, uhhh, yeah -->
+		
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script> 
+		
+		<!-- Bootstrap CSS, theme, and JS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		
+		<!-- Syntax highlighting -->
+		<script language="javascript" type="text/javascript" src="edit_area/edit_area_full.js"></script>		
+		
+		<!-- Script to handle buttons -->
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<!-- Title bar -->
+			<div class="page-header" id="title-bar">
+				<h1 id="title">
+					Pavlok Developer Playground 
+					<small id="login-message">You are logged in.</small>
+					<small id="logout-button"><a href="/logout">Logout</a></small>
+				</h1>
+			</div>
+			
+			<!-- Code area -->
+			<fieldset>
+				<textarea id="code" autocomplete="false" spellcheck="false" style="margin-left: 1em; width: 100%">
+				</textarea>
+			</fieldset>
+			
+			<!-- Run buttons -->
+			<button type="button" autocomplete="off" class="btn btn-default" id="run">Run</button>
+			
+			<!-- Result -->	
+			<div id="result">
+				Your result will appear here after running.
+			</div>
+		</div>
+	</body>
+</html>
