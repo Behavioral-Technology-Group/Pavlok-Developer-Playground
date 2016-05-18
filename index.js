@@ -34,6 +34,6 @@ app.get("/", function(req, res){
 });
 
 //Start the server
-app.listen(80, function(){
+app.listen(process.env.PORT, function(){
 	console.log("Visit the IP address of this machine, or http://localhost:80/.");
 });
