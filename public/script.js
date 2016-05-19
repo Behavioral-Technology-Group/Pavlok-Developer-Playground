@@ -17,7 +17,7 @@ function sendRequest(){
 		$("#result").text(message);
 	})
 	.fail(function(xhr, status, error){
-		$("#result").text(xhr.code + ": " + error);
+		$("#result").text(xhr.status + ": " + error);
 	})
 	.always(function(){
 		$("#run").button("reset");

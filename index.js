@@ -43,7 +43,7 @@ app.get("/logout", function(req, res){
 	}
 });
 app.post("/run", function(req, res){
-	if(!pavlok.isLoggedIn(req)) return res.status(401).send("Not authorized.");
+	//if(!pavlok.isLoggedIn(req)) return res.status(401).send("Not authorized.");
 	if(req.body.code == null) return res.status(400).send("No code sent.");
 
 	var token = pavlok.getToken(req); //Token to use for stimuli
