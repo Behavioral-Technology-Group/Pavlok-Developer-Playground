@@ -41,7 +41,7 @@ app.get("/context.js", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		var context = "var pavCtx = ";
 		var contextObject = {
-			"auth": pavlok.getToken()
+			"auth": pavlok.getToken(req)
 		};
 		context += JSON.stringify(contextObject);
 		context += ";";
