@@ -8,6 +8,10 @@ var app = express();
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(function(req, res, next){
+	res.header('X-XSS-Protection', 0);
+	next(); 
+});
 
 //Initialize the app
 pavlok.init(

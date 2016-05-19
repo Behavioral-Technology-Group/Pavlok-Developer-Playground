@@ -1,3 +1,7 @@
+#container {
+	margin: 4em;
+}
+
 #title-bar {
 	width: 100%;
 	margin: 1em 1em 1em 1em;
@@ -10,16 +14,45 @@
 
 #run {
 	display: block;
-	margin-left: 1em;
 	margin-top: 1em;
-	width: 8em;
+	width: 16em;
 }
 
 #result {
 	display: block;
-	margin: 1em;
+	margin-top: 1em;
 	padding: 1em;
 	font-size: 1.25em;
 	background-color: #cccccc;
-	width: 90%;
+	width: 100%;
+}
+
+#logs {
+	display: block;
+	margin-top: 1em;
+	padding: 1em;
+	font-size: 1.25em;
+	background-color: #dddddd;
+	width: 100%;
+}
+
+#code {
+	display: block;
+	clear: both;
+	padding-left: 50px;
+	margin-left: 50px;
+}
+
+.log-info {
+	color: #101010;
+}
+
+.log-error {
+	color: #C90000;
+	font-weight: bold;
+}
+
+.log-warn {
+	color: #F27979;
+
 }

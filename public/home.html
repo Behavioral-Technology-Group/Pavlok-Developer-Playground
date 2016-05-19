@@ -15,11 +15,14 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		
-		<!-- Syntax highlighting -->
-		<script language="javascript" type="text/javascript" src="edit_area/edit_area_full.js"></script>		
+		<!-- Syntax highlighting via CodeMirror-->
+		<link rel="stylesheet" href="lib/codemirror.css">
+		<script src="lib/codemirror.js"></script>
+		<script src="mode/javascript/javascript.js"></script>
 		
 		<!-- Script to handle buttons -->
 		<script src="script.js"></script>
+		<script src="lib.js"></script>
 		
 		<!-- Context data for the page; used to populate certain objects -->
 		<script src="context.js"></script>
@@ -36,17 +39,20 @@
 			</div>
 			
 			<!-- Code area -->
-			<fieldset>
-				<textarea id="code" autocomplete="false" spellcheck="false" style="margin-left: 1em; width: 100%">
-				</textarea>
-			</fieldset>
+			<textarea id="code" autocomplete="false" spellcheck="false">
+			</textarea>
 			
 			<!-- Run buttons -->
 			<button type="button" autocomplete="off" class="btn btn-default" id="run">Run</button>
 			
-			<!-- Result -->	
+			<!-- Output of the script -->	
 			<div id="result">
-				Your result will appear here after running.
+				The result of any Pavlok stimuli and your script will appear here after running.
+			</div>
+			
+			<!-- Script logs (from log.info(), log.warn(), log.error()) -->
+			<div id="logs">
+				Logs from log.info(...), log.warn(...), and log.error(...) will show up here.
 			</div>
 		</div>
 	</body>
