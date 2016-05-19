@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground#readme",
   "dependencies": {
+    "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "pavlok-beta-api-login": "^2.0.0",
     "sandbox": "^0.8.6",

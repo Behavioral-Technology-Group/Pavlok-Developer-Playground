@@ -1,10 +1,12 @@
 var pavlok = require('pavlok-beta-api-login');
 var express = require('express');
+var bodyParser = require('body-parser');
 var SandCastle = require('sandcastle').SandCastle;
 
 //Setup the app
 var app = express();
 app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //Initialize the app
 pavlok.init(
@@ -34,6 +36,20 @@ app.get("/", function(req, res){
 		pavlok.auth(req, res);
 	}
 });
+app.get("/context.js", function(req, res){
+	res.setHeader("Content-Type", "text/javascript");
+	if(pavlok.isLoggedIn(req)){
+		var context = "var pavCtx = ";
+		var contextObject = {
+			"auth": pavlok.getToken()
+		};
+		context += JSON.stringify(contextObject);
+		context += ";";
+		res.status(200).send(context);
+	} else {
+		res.status(401).send("var pavCtx = {};");
+	}
+});
 app.get("/logout", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		pavlok.logout(req);
@@ -43,7 +59,7 @@ app.get("/logout", function(req, res){
 	}
 });
 app.post("/run", function(req, res){
-	//if(!pavlok.isLoggedIn(req)) return res.status(401).send("Not authorized.");
+	if(!pavlok.isLoggedIn(req)) return res.status(401).send("Not authorized.");
 	if(req.body.code == null) return res.status(400).send("No code sent.");
 
 	var token = pavlok.getToken(req); //Token to use for stimuli

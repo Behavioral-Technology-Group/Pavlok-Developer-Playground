@@ -10,6 +10,7 @@ function sendRequest(){
 		"url": "/run",
 		"data": JSON.stringify({
 			"code": code,
+			"auth": pavCtx.auth
 		}),
 		"method": "POST",
 	})
@@ -17,7 +18,7 @@ function sendRequest(){
 		$("#result").text(message);
 	})
 	.fail(function(xhr, status, error){
-		$("#result").text(xhr.status + ": " + error);
+		$("#result").text(xhr.status + ": " + xhr.responseText + "(" + error + ")");
 	})
 	.always(function(){
 		$("#run").button("reset");
