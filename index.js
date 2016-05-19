@@ -59,24 +59,30 @@ app.get("/logout", function(req, res){
 	}
 });
 app.post("/run", function(req, res){
-	if(!pavlok.isLoggedIn(req)) return res.status(401).send("Not authorized.");
+	if(req.body.pavAuth) return res.status(401).send("Not authorized.");
 	if(req.body.code == null) return res.status(400).send("No code sent.");
 
 	var token = pavlok.getToken(req); //Token to use for stimuli
-	var code = req.body.code;
+	var source = req.body.code;
+	var pavAuth = req.body.auth;
 
-	//Expose Pavlok functions
-
-	//Run the damn thing
+	//Setup the sandcastle
 	var sandcastle = new SandCastle();
 
-	var script = sandcastle.createScript(code);
+	//Create and expose the Pavlok functions
+	
+
+	//Run the script
+	var script = sandcastle.createScript(source);
 	script.on('exit', function(err, output) {
 		if(err){
 			return res.status(500).send(err.message + "\n\n" + err.stack);
 		} else {
 			return res.status(200).send("Script successfully executed with output: \n" + output);
 		}
+	});
+	script.on('timeout', function() {
+		return res.status(500).send("Script took too long to execute! Scripts are only allowed to run for 10s at most; are you sure you don't have an infinite loop somewhere?");
 	});
 	script.run({});
 });

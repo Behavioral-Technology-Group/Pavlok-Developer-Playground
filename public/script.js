@@ -18,7 +18,7 @@ function sendRequest(){
 		$("#result").text(message);
 	})
 	.fail(function(xhr, status, error){
-		$("#result").text(xhr.status + ": " + xhr.responseText + "(" + error + ")");
+		$("#result").text(xhr.responseText + " (" + xhr.status + "; + error + ")");
 	})
 	.always(function(){
 		$("#run").button("reset");
