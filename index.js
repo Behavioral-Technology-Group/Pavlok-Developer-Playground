@@ -32,15 +32,20 @@ pavlok.getToken = function(request){
 	return request.session.pavlok_token;
 };
 
-//Serve the pages
+//Serve the homepage
 app.get("/", function(req, res){
 	console.log("Fetching index; is logged in=" + pavlok.isLoggedIn(req));
 	if(pavlok.isLoggedIn(req)){
-		return res.send(__dirname + "/public/home.html");
+		return res.sendFile(__dirname + "/public/home.html");
 	} else {
 		pavlok.auth(req, res);
 	}
 });
+
+//TODO: app.get(...) on /doc/[fileID] route
+
+//Serve the context object -- this actually provides the information used
+//on the client
 app.get("/context.js", function(req, res){
 	res.setHeader("Content-Type", "text/javascript");
 	if(pavlok.isLoggedIn(req)){
@@ -51,10 +56,14 @@ app.get("/context.js", function(req, res){
 		context += JSON.stringify(contextObject);
 		context += ";";
 		res.status(200).send(context);
+
+		//TODO: Fetch from /me here
 	} else {
 		res.status(401).send("var pavCtx = {};");
 	}
 });
+
+//Logout of the server
 app.get("/logout", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		pavlok.logout(req);
