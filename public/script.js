@@ -25,7 +25,7 @@ log.clear = function(){
 }
 
 var pavlok = {};
-pavlok.beep = function(percent){
+pavlok.generic = function(route, percent){
 	//Fetch auth code
 	var authCode = pavCtx.auth;
 	var intensity = Math.floor(percent * 2.55);
@@ -33,7 +33,7 @@ pavlok.beep = function(percent){
 	if(intensity < 0) intensity = 1;
 	
 	$.ajax({
-		"url": "http://pavlok-mvp.herokuapp.com/api/v1/stimuli/beep/" + intensity,
+		"url": "https://pavlok-mvp.herokuapp.com/api/v1/stimuli/beep/" + intensity,
 		"data": {
 			"access_token": authCode,
 			"reason": "Hello from the Developer Playground!",
@@ -42,12 +42,15 @@ pavlok.beep = function(percent){
 		"method": "GET",
 	})
 	.done(function(message){
-		$("#result").append("<div>Beep delivered successfully.</div>");
+		$("#result").append("<div>" + route + " delivered successfully.</div>");
 	})
 	.fail(function(xhr, status, error){	
-		$("#result").append("<div>Failed to send beep!</div>");
+		$("#result").append("<div>Failed to send " + route + "!</div>");
 	});
-}
+};
+pavlok.beep = function(percent){
+	pavlok.generic("beep", percent);
+};
 
 
 function sendRequest(){
