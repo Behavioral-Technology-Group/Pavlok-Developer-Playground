@@ -33,11 +33,9 @@ pavlok.generic = function(route, percent){
 	if(intensity < 0) intensity = 1;
 	
 	$.ajax({
-		"url": "http://pavlok-mvp.herokuapp.com/api/v1/me",
-		"data": {
-			"access_token": authCode
-		/*	"reason": "Hello from the Developer Playground!" */
-		}
+		"url": "http://pavlok-mvp.herokuapp.com/api/v1/stimuli/beep/" +
+			intensity + "?access_token=" + authCode + "&reason=Hello from module!",
+		"method": "POST"
 	})
 	.done(function(message){
 		$("#result").append("<div>" + JSON.stringify(message) + " delivered successfully.</div>");
