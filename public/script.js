@@ -33,13 +33,11 @@ pavlok.generic = function(route, percent){
 	if(intensity < 0) intensity = 1;
 	
 	$.ajax({
-		"url": "https://pavlok-mvp.herokuapp.com/api/v1/stimuli/beep/" + intensity,
+		"url": "http://pavlok-mvp.herokuapp.com/api/v1/me/beep/",
 		"data": {
-			"access_token": authCode,
-			"reason": "Hello from the Developer Playground!",
-			"time": new Date().getTime()
-		},
-		"method": "GET",
+			"access_token": authCode
+		/*	"reason": "Hello from the Developer Playground!" */
+		}
 	})
 	.done(function(message){
 		$("#result").append("<div>" + route + " delivered successfully.</div>");
@@ -56,7 +54,7 @@ pavlok.beep = function(percent){
 function sendRequest(){
 	//(1) Fetch contents of textarea
 	var code = editor.getValue();
-	
+
 	//(2) Disable button
 	 $("#run").button("loading");
 	 
@@ -76,36 +74,13 @@ function sendRequest(){
 	
 	$("#run").button("reset");
 	$("#result").append("<div>" + result + "</div>");
-	
-	//(3) Send the AJAX request
-	/*
-	$.ajax({
-		"url": "/run",
-		"processData": false,
-		"contentType": "application/json",
-		"data": JSON.stringify({
-			"code": code,
-			"auth": pavCtx.auth
-		}),
-		"method": "POST",
-	})
-	.done(function(message){
-		$("#result").text(message);
-	})
-	.fail(function(xhr, status, error){	
-		$("#result").text(xhr.responseText + " (" + xhr.status + "; " + error + ")");
-	})
-	.always(function(){
-		$("#run").button("reset");
-	});
-	*/
 };
 
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
 	});
-	
+
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		mode: "javascript",
