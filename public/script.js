@@ -40,7 +40,7 @@ pavlok.generic = function(route, percent){
 		}
 	})
 	.done(function(message){
-		$("#result").append("<div>" + message + " delivered successfully.</div>");
+		$("#result").append("<div>" + JSON.stringify(message) + " delivered successfully.</div>");
 	})
 	.fail(function(xhr, status, error){	
 		$("#result").append("<div>Failed to send " + route + "!</div>");
