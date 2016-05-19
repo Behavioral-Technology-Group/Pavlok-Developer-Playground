@@ -8,6 +8,8 @@ function sendRequest(){
 	//(3) Send the AJAX request
 	$.ajax({
 		"url": "/run",
+		"processData": false,
+		"contentType": "application/json",
 		"data": JSON.stringify({
 			"code": code,
 			"auth": pavCtx.auth
@@ -17,7 +19,7 @@ function sendRequest(){
 	.done(function(message){
 		$("#result").text(message);
 	})
-	.fail(function(xhr, status, error){
+	.fail(function(xhr, status, error){	
 		$("#result").text(xhr.responseText + " (" + xhr.status + "; " + error + ")");
 	})
 	.always(function(){
