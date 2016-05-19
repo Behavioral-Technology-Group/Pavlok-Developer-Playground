@@ -14,10 +14,10 @@ function sendRequest(){
 		"method": "POST",
 	})
 	.done(function(message){
-		$("#result").text("Success: " + message);
+		$("#result").text(message);
 	})
 	.fail(function(xhr, status, error){
-		$("#result").text(status.code + ": " + error);
+		$("#result").text(xhr.code + ": " + error);
 	})
 	.always(function(){
 		$("#run").button("reset");

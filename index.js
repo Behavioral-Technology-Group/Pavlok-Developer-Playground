@@ -56,8 +56,11 @@ app.post("/run", function(req, res){
 
 	var script = sandcastle.createScript(code);
 	script.on('exit', function(err, output) {
-		if(err) return res.status(500).send(err);
-		return res.status(200).send(output);
+		if(err){
+			return res.status(500).send(err.message + "\n\n" + err.stack);
+		} else {
+			return res.status(200).send("Script successfully executed with output: \n" + output);
+		}
 	});
 	script.run({});
 });
