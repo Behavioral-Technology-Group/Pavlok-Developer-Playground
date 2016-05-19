@@ -31,7 +31,7 @@ pavlok.getToken = function(request){
 app.get("/", function(req, res){
 	console.log("Fetching index; is logged in=" + pavlok.isLoggedIn(req));
 	if(pavlok.isLoggedIn(req)){
-		return res.redirect("index.html");
+		return res.redirect("home.html");
 	} else {
 		pavlok.auth(req, res);
 	}
