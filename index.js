@@ -80,8 +80,7 @@ function establishSession(req, res, meResponse){
 						} else {
 							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
-							req.session.save();
-							res.redirect("/");
+							res.sendFile(__dirname + "/public/home.html");
 						}
 					});
 			}
