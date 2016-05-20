@@ -84,6 +84,7 @@ function establishSession(req, res, meResponse){
 							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
 							req.temp = "atemp";
+							res.temp = "atemp";
 							res.redirect("/");
 						}
 					});
