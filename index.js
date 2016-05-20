@@ -28,7 +28,7 @@ app.get("/success", function(req, res){
 	//Get /me from Pavlok using access token
 	var token = req.query.code;
 	var queryParams = {
-		code: token
+		access_token: token
 	};
 	
 	request({
