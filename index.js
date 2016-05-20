@@ -29,7 +29,7 @@ app.use(function(req, res, next){
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
 	if(req.session.sid === undefined || req.session.sid == null){
-		pavlok.auth(res, req);
+		pavlok.auth(req, res);
 	} else {
 		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE uid=$1",
 			[res.uid],
