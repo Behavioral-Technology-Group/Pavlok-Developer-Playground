@@ -127,13 +127,7 @@ function setupQuery(queryText, params, callback){
 
 //Serve the homepage
 app.get("/", function(req, res){
-	console.log("Fetching index; is logged in=" + pavlok.isLoggedIn(req));
-	if(pavlok.isLoggedIn(req)){
-		return res.sendFile(__dirname + "/public/home.html");
-	} else {
-		console.log("Redirecting to authentication...");
-		pavlok.auth(req, res);
-	}
+	return res.sendFile(__dirname + "/public/home.html");
 });
 
 //Serve the success page with some necessary pre-serve tweaks
@@ -186,25 +180,22 @@ app.get("/success", function(req, res){
 });
 
 
-//TODO: app.get(...) on /doc/[fileID] route
+//TODO: app.get(...) on /file/[fileID] route
 
 //Serve the context object -- this actually provides the information used
 //on the client
 app.get("/context.js", function(req, res){
 	res.setHeader("Content-Type", "text/javascript");
-	if(pavlok.isLoggedIn(req)){
-		var context = "var pavCtx = ";
-		var contextObject = {
-			"auth": pavlok.getToken(req)
-		};
-		context += JSON.stringify(contextObject);
-		context += ";";
-		res.status(200).send(context);
+	var context = "var pavCtx = ";
+	var contextObject = {
+		code: req.pavuser.code,
+		name: req.pavuser.name,
+		uid: req.pavuser.uid
+	};
+	context += JSON.stringify(contextObject);
+	context += ";";
+	res.status(200).send(context);
 
-		//TODO: Fetch from /me here; CREATE/UPDATE the User records
-	} else {
-		res.status(401).send("var pavCtx = {};");
-	}
 });
 
 //Logout of the server
