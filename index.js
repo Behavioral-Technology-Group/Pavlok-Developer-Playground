@@ -21,6 +21,11 @@ app.use(function(req, res, next){
 	res.header('X-XSS-Protection', 0);
 	next(); 
 });
+app.use(function(req, res, next){
+	//Middleware that checks for a SID where valid
+	console.log(req.url);
+	next();
+});
 
 //Postgres connect
 var client;
