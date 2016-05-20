@@ -39,8 +39,8 @@ pavlok.init(
 		"message": "Hello from the developer playground!",
 		"callbackUrl": "https://pavlok-developer-playground.herokuapp.com/auth/result",
 		"callbackUrlPath": "/auth/result",
-		"successUrl": "/success",
-		"errorUrl": "/error"
+		"successPath": "/success",
+		"errorPath": "/error"
 	}
 );
 
