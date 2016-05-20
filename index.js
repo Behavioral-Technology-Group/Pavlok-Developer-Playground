@@ -2,6 +2,8 @@ var pavlok = require('pavlok-beta-api-login');
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
 var uuid = require('node-uuid');
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -10,6 +12,11 @@ pg.defaults.ssl = true;
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cookieSession({
+	name: "session",
+	keys: [ "asessionkeythisis" ]
+}));
 app.use(function(req, res, next){
 	res.header('X-XSS-Protection', 0);
 	next(); 
@@ -26,54 +33,6 @@ pg.connect(process.env.DATABASE_URL, function(err, cli){
 	}
 });
 
-//Serve the success page with some necessary pre-serve tweaks
-app.get("/success", function(req, res){
-	//Get /me from Pavlok using access token
-	var token = req.query.code;
-	var queryParams = {
-		access_token: token
-	};
-	
-	request({
-		url: "https://pavlok-mvp.herokuapp.com/api/v1/me",
-		qs: queryParams,
-		method: 'GET',
-	}, function(error, response, body){
-		if(error){
-			console.log(JSON.stringify(error));
-			res.redirect("/error");
-		} else {
-			var meResponse = JSON.parse(body);
-			setupQuery("SELECT FROM Users WHERE uid=$1",
-				[meResponse.uid],
-				function(error, rows){
-					if(!error && rows.length > 0){
-						//Update the user
-						setupQuery("UPDATE Users SET token=$1 WHERE uid=$2",
-							[token, meResponse.uid],
-							function(error, rows){
-								if(error){
-									res.status(500).send("Failed to update the user!");
-								} else {
-									establishSession(req, res, meResponse);
-								}
-							});	
-					} else {
-						//Insert the user
-						setupQuery("INSERT INTO Users(uid, name, token) VALUES ($1, $2, $3)",
-							[meResponse.uid, meResponse.name, token],
-							function(error, rows){
-								if(error){
-									res.status(500).send("Failed to insert the user!");
-								} else {
-									establishSession(req, res, meResponse);					
-								}
-							});
-					}
-				});	
-		}
-	});
-});
 
 //Create a session and drop the required cookies
 function establishSession(req, res, meResponse){
@@ -81,7 +40,7 @@ function establishSession(req, res, meResponse){
 	setupQuery("DELETE FROM Session WHERE uid=$1",
 		[meResponse.uid],
 		function(error, rows){
-			if(err){
+			if(error){
 				res.status(500).send("Could not delete old sessions!");
 			} else {
 				setupQuery("INSERT INTO Session (uid, session_id) VALUES ($1, $2)",
@@ -90,7 +49,7 @@ function establishSession(req, res, meResponse){
 						if(error){
 							res.status(500).send("Failed to create session!");
 						} else {
-				//			req.session.sid = sid;
+							req.session.sid = sid;
 							res.send("Created with SID " +  sid + ".");
 						}
 					});
@@ -149,6 +108,56 @@ app.get("/", function(req, res){
 		pavlok.auth(req, res);
 	}
 });
+
+//Serve the success page with some necessary pre-serve tweaks
+app.get("/success", function(req, res){
+	//Get /me from Pavlok using access token
+	var token = req.query.code;
+	var queryParams = {
+		access_token: token
+	};
+	
+	request({
+		url: "https://pavlok-mvp.herokuapp.com/api/v1/me",
+		qs: queryParams,
+		method: 'GET',
+	}, function(error, response, body){
+		if(error){
+			console.log(JSON.stringify(error));
+			res.redirect("/error");
+		} else {
+			var meResponse = JSON.parse(body);
+			setupQuery("SELECT FROM Users WHERE uid=$1",
+				[meResponse.uid],
+				function(error, rows){
+					if(!error && rows.length > 0){
+						//Update the user
+						setupQuery("UPDATE Users SET token=$1 WHERE uid=$2",
+							[token, meResponse.uid],
+							function(error, rows){
+								if(error){
+									res.status(500).send("Failed to update the user!");
+								} else {
+									establishSession(req, res, meResponse);
+								}
+							});	
+					} else {
+						//Insert the user
+						setupQuery("INSERT INTO Users(uid, name, token) VALUES ($1, $2, $3)",
+							[meResponse.uid, meResponse.name, token],
+							function(error, rows){
+								if(error){
+									res.status(500).send("Failed to insert the user!");
+								} else {
+									establishSession(req, res, meResponse);					
+								}
+							});
+					}
+				});	
+		}
+	});
+});
+
 
 //TODO: app.get(...) on /doc/[fileID] route
 

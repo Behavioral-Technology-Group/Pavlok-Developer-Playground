@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Behavioral-Technology-Group/Pavlok-Developer-Playground#readme",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.1",
+    "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.4",
     "node-uuid": "^1.4.7",
     "pavlok-beta-api-login": "^2.0.3",
