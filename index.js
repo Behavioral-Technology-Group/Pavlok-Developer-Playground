@@ -34,7 +34,7 @@ app.get("/success", function(req, res){
 	request({
 		url: "https://pavlok-mvp.herokuapp.com/api/v1/me",
 		qs: queryParams,
-		method: 'POST',
+		method: 'GET',
 	}, function(error, response, body){
 		if(error){
 			console.log(JSON.stringify(error));
