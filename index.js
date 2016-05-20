@@ -16,11 +16,13 @@ app.use(function(req, res, next){
 });
 
 //Postgres connect
+var client;
 pg.connect(process.env.DATABASE_URL, function(err, cli){
 	if(err){
 		console.log("Error connecting to Postgress. Are you running in an environment without process.env.DATABASE_URL?");
 	} else {
 		console.log("Connected to Postgres!");
+		client = cli;
 	}
 });
 
