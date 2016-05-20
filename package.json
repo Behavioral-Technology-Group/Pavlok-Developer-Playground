@@ -20,7 +20,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "pavlok-beta-api-login": "^2.0.1",
+    "pavlok-beta-api-login": "^2.0.2",
     "pg": "^4.5.5",
     "request": "^2.72.0",
     "sandbox": "^0.8.6",

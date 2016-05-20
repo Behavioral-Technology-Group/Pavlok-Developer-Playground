@@ -26,7 +26,7 @@ pg.connect(process.env.DATABASE_URL, function(err, cli){
 //Serve the success page with some necessary pre-serve tweaks
 app.get("/success", function(req, res){
 	//Get /me from Pavlok using access token
-	var token = pavlok.getToken(req);
+	var token = req.query.code;
 	res.send(token);
 });
 
@@ -40,7 +40,8 @@ pavlok.init(
 		"callbackUrl": "https://pavlok-developer-playground.herokuapp.com/auth/result",
 		"callbackUrlPath": "/auth/result",
 		"successPath": "/success",
-		"errorPath": "/error"
+		"errorPath": "/error",
+		"successWithCode": true
 	}
 );
 
