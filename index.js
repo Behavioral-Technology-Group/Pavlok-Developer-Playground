@@ -44,7 +44,6 @@ app.get("/success", function(req, res){
 			res.send(meResponse.uid + " " + meResponse.name);
 		}
 	});
-	res.send(token);
 });
 
 //Initialize the app
