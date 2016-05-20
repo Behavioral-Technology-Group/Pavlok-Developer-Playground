@@ -98,6 +98,7 @@ pavlok.init(
 		"callbackUrlPath": "/auth/result",
 		"successPath": "/success",
 		"errorPath": "/error",
+		"apiUrl": "https://pavlok-mvp.herokuapp.com",
 		"successWithCode": true
 	}
 );
