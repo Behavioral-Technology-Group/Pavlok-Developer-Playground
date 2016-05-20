@@ -77,7 +77,7 @@ function establishSession(req, res, meResponse){
 							res.status(500).send("Failed to create session!");
 						} else {
 							req.session.sid = sid;
-							console.log("SID is now: " + req.session.sid");
+							console.log("SID is now: " + req.session.sid );
 							res.redirect("/");
 						}
 					});
