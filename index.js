@@ -23,6 +23,13 @@ pg.connect(process.env.DATABASE_URL, function(err, cli){
 	}
 });
 
+//Serve the success page with some necessary pre-serve tweaks
+app.get("/success", function(req, res){
+	//Get /me from Pavlok using access token
+	var token = pavlok.getToken(req);
+	res.send(token);
+});
+
 //Initialize the app
 pavlok.init(
 	"e3ae6d5fd801450de22db816c0fc44abb2d12526c52b401a3346d3e59a3663f2",
@@ -61,12 +68,7 @@ function setupQuery(queryText, params, callback){
 	});
 }
 
-//Serve the success page with some necessary pre-serve tweaks
-app.get("/success", function(req, res){
-	//Get /me from Pavlok using access token
-	var token = pavlok.getToken(req);
-	res.send(token);
-});
+
 
 //Serve the homepage
 app.get("/", function(req, res){
