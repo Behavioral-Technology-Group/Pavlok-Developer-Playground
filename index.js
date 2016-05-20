@@ -76,6 +76,7 @@ app.get("/", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		return res.sendFile(__dirname + "/public/home.html");
 	} else {
+		console.log("Redirecting to authentication...");
 		pavlok.auth(req, res);
 	}
 });
