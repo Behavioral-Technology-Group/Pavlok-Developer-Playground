@@ -28,7 +28,8 @@ app.use(function(req, res, next){
 	//Perform user lookup for the / route and the /context.js route to let 
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
-	console.log("Value of atemp: " + req.temp);
+	console.log("Value of atemp(req): " + req.temp);
+	console.log("Value of atemp(res): " + res.temp); 
 	if(req.session.sid === undefined || req.session.sid == null){
 		console.log("Couldn't find SID!");
 		pavlok.auth(req, res);
