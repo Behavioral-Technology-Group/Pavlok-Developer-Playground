@@ -28,6 +28,7 @@ app.use(function(req, res, next){
 	//Perform user lookup for the / route and the /context.js route to let 
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
+	console.log("Value of atemp: " + req.temp);
 	if(req.session.sid === undefined || req.session.sid == null){
 		console.log("Couldn't find SID!");
 		pavlok.auth(req, res);
@@ -40,6 +41,7 @@ app.use(function(req, res, next){
 					console.log("Session fetch error!");
 					pavlok.auth(res, req);
 				} else {
+					console.log("Fetched user data from session ID!");
 					req.pavuser = {
 						uid: rows[0].uid,
 						name: rows[0].name,
@@ -80,7 +82,8 @@ function establishSession(req, res, meResponse){
 						} else {
 							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
-							res.sendFile(__dirname + "/public/home.html");
+							req.temp = "atemp";
+							res.redirect("/");
 						}
 					});
 			}
