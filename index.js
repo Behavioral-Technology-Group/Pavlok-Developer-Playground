@@ -49,6 +49,15 @@ app.get("/success", function(req, res){
 				function(error, rows){
 					if(!error && rows.length > 0){
 						//Update the user
+						setupQuery("UPDATE Users SET token=$1 WHERE uid=$2",
+							[token, meResponse.uid],
+							function(error, rows){
+								if(error){
+									res.status(500).send("Failed to update the user!");
+								} else {
+									establishSession(req, res, meResponse);
+								}
+							});	
 					} else {
 						//Insert the user
 						setupQuery("INSERT INTO Users(uid, name, token) VALUES ($1, $2, $3)",
@@ -57,7 +66,7 @@ app.get("/success", function(req, res){
 								if(error){
 									res.status(500).send("Failed to insert the user!");
 								} else {
-									estabishSession(req, res, meResponse);					
+									establishSession(req, res, meResponse);					
 								}
 							});
 					}
