@@ -18,13 +18,35 @@ app.use(cookieSession({
 	keys: [ "asessionkeythisis" ]
 }));
 app.use(function(req, res, next){
-	res.header('X-XSS-Protection', 0);
-	next(); 
-});
-app.use(function(req, res, next){
-	//Middleware that checks for a SID where valid
 	console.log(req.url);
-	next();
+	res.header('X-XSS-Protection', 0);
+	if(req.url != "/" && req.url != "/context.js" && !req.url.startsWith("/file/")){
+		next();
+		return;
+	}
+
+	//Perform user lookup for the / route and the /context.js route to let 
+	//these routes populate themselves as needed with user information, or redirect
+	//to a proper page
+	if(req.session.sid === undefined || req.session.sid == null){
+		pavlok.auth(res, req);
+	} else {
+		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE uid=$1",
+			[res.uid],
+			function(error, rows){
+				if(error){
+					console.log("Session fetch error " + error);
+					pavlok.auth(res, req);
+				} else {
+					req.pavuser = {
+						uid: rows[0].uid,
+						name: rows[0].name,
+						token: rows[0].token	
+					};
+					next();
+				}
+			});
+	}
 });
 
 //Postgres connect
