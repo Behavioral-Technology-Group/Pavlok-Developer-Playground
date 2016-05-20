@@ -29,13 +29,15 @@ app.use(function(req, res, next){
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
 	if(req.session.sid === undefined || req.session.sid == null){
+		console.log("Couldn't find SID!");
 		pavlok.auth(req, res);
 	} else {
-		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE uid=$1",
-			[res.uid],
+		console.log("Found SID; looking for matching user...");
+		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE session_id=$1",
+			[req.session.sid],
 			function(error, rows){
 				if(error){
-					console.log("Session fetch error " + error);
+					console.log("Session fetch error!");
 					pavlok.auth(res, req);
 				} else {
 					req.pavuser = {
