@@ -20,7 +20,7 @@ app.use(cookieSession({
 app.use(function(req, res, next){
 	console.log(req.url);
 	res.header('X-XSS-Protection', 0);
-	if(req.url != "/" && req.url != "/context.js" && !req.url.startsWith("/file/")){
+	if(req.url != "/" && req.url != "/context.js" && && req.url != "/index.html" && !req.url.startsWith("/file/")){
 		next();
 		return;
 	}
@@ -28,15 +28,15 @@ app.use(function(req, res, next){
 	//Perform user lookup for the / route and the /context.js route to let 
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
-	console.log("Value of atemp(req): " + req.temp);
-	console.log("Value of atemp(res): " + res.temp); 
-	if(req.session.sid === undefined || req.session.sid == null){
+	console.log("Trying to fetch SID..."); 
+	console.log(req.query.sid);
+	if((req.session.sid === undefined || req.session.sid == null) && req.query.sid == null){
 		console.log("Couldn't find SID!");
 		pavlok.auth(req, res);
 	} else {
 		console.log("Found SID; looking for matching user...");
 		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE session_id=$1",
-			[req.session.sid],
+			[req.session.sid || req.query.sid],
 			function(error, rows){
 				if(error){
 					console.log("Session fetch error!");
@@ -81,11 +81,8 @@ function establishSession(req, res, meResponse){
 						if(error){
 							res.status(500).send("Failed to create session!");
 						} else {
-							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
-							req.temp = "atemp";
-							res.temp = "atemp";
-							res.redirect("/");
+							res.redirect("/index.html?sid=" + req.session.sid);
 						}
 					});
 			}
@@ -131,13 +128,6 @@ function setupQuery(queryText, params, callback){
 		callback(null, result.rows);
 	});
 }
-
-
-
-//Serve the homepage
-app.get("/", function(req, res){
-	return res.sendFile(__dirname + "/public/home.html");
-});
 
 //Serve the success page with some necessary pre-serve tweaks
 app.get("/success", function(req, res){
