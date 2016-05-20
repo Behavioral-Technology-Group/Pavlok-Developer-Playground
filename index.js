@@ -78,14 +78,22 @@ app.get("/success", function(req, res){
 //Create a session and drop the required cookies
 function establishSession(req, res, meResponse){
 	var sid = uuid.v4();
-	setupQuery("INSERT INTO Session (uid, session_id) VALUES ($1, $2)",
-		[meResponse.uid, sid],
+	setupQuery("DELETE FROM Session WHERE uid=$1",
+		[meResponse.uid],
 		function(error, rows){
-			if(error){
-				res.status(500).send("Failed to create session!");
+			if(err){
+				res.status(500).send("Could not delete old sessions!");
 			} else {
-	//			req.session.sid = sid;
-				res.send("Created with SID " +  sid + ".");
+				setupQuery("INSERT INTO Session (uid, session_id) VALUES ($1, $2)",
+					[meResponse.uid, sid],
+					function(error, rows){
+						if(error){
+							res.status(500).send("Failed to create session!");
+						} else {
+				//			req.session.sid = sid;
+							res.send("Created with SID " +  sid + ".");
+						}
+					});
 			}
 		});
 }
