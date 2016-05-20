@@ -27,6 +27,23 @@ pg.connect(process.env.DATABASE_URL, function(err, cli){
 app.get("/success", function(req, res){
 	//Get /me from Pavlok using access token
 	var token = req.query.code;
+	var queryParams = {
+		code: token
+	};
+	
+	request({
+		url: "https://pavlok-mvp.herokuapp.com/api/v1/me",
+		qs: queryParams,
+		method: 'POST',
+	}, function(error, response, body){
+		if(error){
+			console.log(JSON.stringify(error));
+			res.redirect("/error");
+		} else {
+			var meResponse = JSON.parse(body);	
+			res.send(meResponse.uid + " " + meResponse.name);
+		}
+	});
 	res.send(token);
 });
 
