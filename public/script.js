@@ -29,6 +29,12 @@ window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
 	});
+	$("#save").click(function() {
+		sendRequest();
+	});
+	$("#share").click(function() {
+		sendRequest();
+	});
 
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,

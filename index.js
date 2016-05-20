@@ -1,16 +1,26 @@
 var pavlok = require('pavlok-beta-api-login');
 var express = require('express');
+var request = require('request');
 var bodyParser = require('body-parser');
-var SandCastle = require('sandcastle').SandCastle;
+var pg = require('pg');
+pg.defaults.ssl = true;
 
 //Setup the app
 var app = express();
-app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(function(req, res, next){
 	res.header('X-XSS-Protection', 0);
 	next(); 
+});
+
+//Postgres connect
+pg.connect(process.env.DATABASE_URL, function(err, cli){
+	if(err){
+		console.log("Error connecting to Postgress. Are you running in an environment without process.env.DATABASE_URL?");
+	} else {
+		console.log("Connected to Postgres!");
+	}
 });
 
 //Initialize the app
@@ -31,6 +41,32 @@ pavlok.init(
 pavlok.getToken = function(request){
 	return request.session.pavlok_token;
 };
+
+function setupQuery(queryText, params, callback){
+	var query = client.query(queryText, params);
+	query.on('row', function(row, result){
+		result.addRow(row);
+	});
+	query.on('error', function(error){
+		console.log("Error while executing query: " + queryText);
+		console.log("Parameters were:");
+		for(var i = 0 ; i < params.length; i++){
+			console.log(params[i]);
+		}
+		console.log("Error was: " + JSON.stringify(error));
+		callback(error, null);
+	});
+	query.on('end', function(result){
+		callback(null, result.rows);
+	});
+}
+
+//Serve the success page with some necessary pre-serve tweaks
+app.get("/success", function(req, res){
+	//Get /me from Pavlok using access token
+	var token = pavlok.getToken(req);
+	res.send(token);
+});
 
 //Serve the homepage
 app.get("/", function(req, res){
@@ -57,7 +93,7 @@ app.get("/context.js", function(req, res){
 		context += ";";
 		res.status(200).send(context);
 
-		//TODO: Fetch from /me here
+		//TODO: Fetch from /me here; CREATE/UPDATE the User records
 	} else {
 		res.status(401).send("var pavCtx = {};");
 	}
@@ -72,6 +108,8 @@ app.get("/logout", function(req, res){
 		return res.status(404).send("You weren't signed in.");
 	}
 });
+
+app.use(express.static(__dirname + "/public"));
 
 //Start the server
 app.listen(process.env.PORT || 3000, function(){
