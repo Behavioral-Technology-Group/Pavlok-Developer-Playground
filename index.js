@@ -20,7 +20,11 @@ app.use(cookieSession({
 app.use(function(req, res, next){
 	console.log(req.url);
 	res.header('X-XSS-Protection', 0);
-	if(req.url != "/" && req.url != "/context.js" && && req.url != "/index.html" && !req.url.startsWith("/file/")){
+
+	//For everything but the normal file browse routes and context script, we 
+	//proceed to the next route
+	if(req.url != "/" && req.url != "/context.js" && req.url != "/index.html" 
+		&& !req.url.startsWith("/file/")){
 		next();
 		return;
 	}
@@ -29,9 +33,9 @@ app.use(function(req, res, next){
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
 	console.log("Trying to fetch SID..."); 
-	console.log(req.query.sid);
-	if((req.session.sid === undefined || req.session.sid == null) && req.query.sid == null){
-		console.log("Couldn't find SID!");
+	if((req.session.sid === undefined || req.session.sid == null)
+		&& req.query.sid == null){
+		console.log("Couldn't find SID; this route needes authentication!");
 		pavlok.auth(req, res);
 	} else {
 		console.log("Found SID; looking for matching user...");
@@ -43,7 +47,7 @@ app.use(function(req, res, next){
 					pavlok.auth(res, req);
 				} else {
 					console.log("Fetched user data from session ID!");
-					req.pavuser = {
+					req.pavuser = { //We populate the 'pavuser' object
 						uid: rows[0].uid,
 						name: rows[0].name,
 						token: rows[0].token	
@@ -178,11 +182,18 @@ app.get("/success", function(req, res){
 	});
 });
 
+function serveNewFile(req, res){
+	return res.sendfile(__dirname + "/public/index.html");
+}
 
-//TODO: app.get(...) on /file/[fileID] route
+app.get("/", serveNewFile);
+
+app.get("/file/:fname", function(req, res, next){
+	res.send("Didn't do getting " + req.params.fname + " yet (I think there's a status code for this...)");
+});
 
 //Serve the context object -- this actually provides the information used
-//on the client
+//on the client-side for populating the page
 app.get("/context.js", function(req, res){
 	res.setHeader("Content-Type", "text/javascript");
 	var context = "var pavCtx = ";
