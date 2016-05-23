@@ -47,12 +47,6 @@ function saveFile(filename){
 };
 
 window.onload = function(){
-	$.ajaxSetup({
-		xhrFields: {
-			withCredentials: true
-		}
-	});
-	
 	$("#run").click(function() {
 		sendRequest();
 	});
