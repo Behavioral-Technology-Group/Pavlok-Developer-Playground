@@ -1,70 +1,57 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Pavlok Developer Playground</title>
+{% extends "root.html" %}
+
+{% block head %}		
+	<!-- Syntax highlighting via CodeMirror-->
+	<link rel="stylesheet" href="lib/codemirror.css">
+	<script src="lib/codemirror.js"></script>
+	<script src="mode/javascript/javascript.js"></script>
+	
+	<!-- Context data for the page; used to populate certain objects -->
+	<script src="context.js"></script>
+	
+	<!-- Library of handy functions -->
+	<script src="lib.js"></script>
+	
+	{% block headerFiles %}
+	{% endblock %}
+{% endblock %}
+
+{% block body %}
+<!-- Title bar -->
+	<div class="page-header" id="title-bar">
+		<h1 id="title">
+			Pavlok Developer Playground 
+			<small id="login-message">Welcome {{ name }}.</small>
+			
+			<br />
+			
+			<small id="logout-button"><a href="/logout">Logout</a></small>
+		</h1>
 		
-		<!-- Custom CS/Javascript -->
-		<link rel="stylesheet" href="style.css">
-		
-		<!-- Libraries: Bootstrap and jQuery, because, uhhh, yeah -->
-		
-		<!-- jQuery -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script> 
-		
-		<!-- Bootstrap CSS, theme, and JS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		
-		<!-- Syntax highlighting via CodeMirror-->
-		<link rel="stylesheet" href="lib/codemirror.css">
-		<script src="lib/codemirror.js"></script>
-		<script src="mode/javascript/javascript.js"></script>
-		
-		<!-- Context data for the page; used to populate certain objects -->
-		<script src="context.js"></script>
-		
-		<!-- Library of handy functions -->
-		<script src="lib.js"></script>
-		
-		{% block headerFiles %}
+		<!-- TODO: File listings -->
+	</div>
+	
+	<!-- Code area -->
+	<textarea id="code" autocomplete="false" spellcheck="false">
+		{{ initialCode }}
+	</textarea>
+	
+	<!-- Buttons -->		
+	<div class="btn-group btn-group-justified" role="group">		
+		{% block buttons %}
 		{% endblock %}
-	</head>
-	<body>
-		<div id="container">
-			<!-- Title bar -->
-			<div class="page-header" id="title-bar">
-				<h1 id="title">
-					Pavlok Developer Playground 
-					<small id="login-message">Welcome {{ name }}.</small>
-					<small id="logout-button"><a href="/logout">Logout</a></small>
-				</h1>
-				
-				<!-- TODO: File listings -->
-			</div>
-			
-			<!-- Code area -->
-			<textarea id="code" autocomplete="false" spellcheck="false">
-			</textarea>
-			
-			<!-- Buttons -->		
-			<div class="btn-group btn-group-justified" role="group">		
-				{% block buttons %}
-				{% endblock %}
-			</div>
-			
-			<!-- Output of the script -->	
-			<div id="result">
-				The result of any Pavlok stimuli and your script will appear here after running.
-			</div>
-			
-			<!-- Script logs (from log.info(), log.warn(), log.error()) -->
-			<div id="logs">
-				Logs from log.info(...), log.warn(...), and log.error(...) will show up here.
-			</div>
-			
-			{% block modals %}
-			{% endblock %}
-		</div>
-	</body>
-</html>
+	</div>
+	
+	<!-- Output of the script -->	
+	<div id="result">
+		The result of any Pavlok stimuli and your script will appear here after running.
+	</div>
+	
+	<!-- Script logs (from log.info(), log.warn(), log.error()) -->
+	<div id="logs">
+		Logs from log.info(...), log.warn(...), and log.error(...) will show up here.
+	</div>
+	
+	{% block modals %}
+	{% endblock %}
+{% endblock %}
