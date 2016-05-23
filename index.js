@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cookieSession({
 	name: "session",
+	httpOnly: false,
 	keys: [ "asessionkeythisis" ]
 }));
 app.use(function(req, res, next){
@@ -221,6 +222,10 @@ app.post("/save_file", function(req, res){
 				res.status(500).json( { error: error } );
 			}
 		});
+});
+
+//Update a file's code
+app.post("/update_code", function(req, res){
 });
 
 //Serve the context object -- this actually provides the information used
