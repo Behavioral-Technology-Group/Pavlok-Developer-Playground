@@ -218,7 +218,7 @@ app.post("/save_file", function(req, res){
 			if(rows.length > 0){
 				res.status(200).json( { error: null, "fid": rows[0].fid } );
 			} else {
-				res.status(500).send(JSON.stringify(error));
+				res.status(500).json( { error: error } );
 			}
 		});
 });
