@@ -85,8 +85,9 @@ function establishSession(req, res, meResponse){
 						if(error){
 							res.status(500).send("Failed to create session!");
 						} else {
+							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
-							res.redirect("/index.html?sid=" + req.session.sid);
+							serveNewFile(req, res);
 						}
 					});
 			}
