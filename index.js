@@ -216,9 +216,9 @@ app.post("/save_file", function(req, res){
 		[uid, code, shareType],
 		function(error, rows){
 			if(rows.length > 0){
-				res.send(200).json( { error: null, "fid": rows[0].fid } );
+				res.status(200).json( { error: null, "fid": rows[0].fid } );
 			} else {
-				res.send(500).send(JSON.stringify(error));
+				res.status(500).send(JSON.stringify(error));
 			}
 		});
 });
