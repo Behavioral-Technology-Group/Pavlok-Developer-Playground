@@ -102,6 +102,11 @@ function establishSession(req, res, meResponse){
 						} else {
 							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
+							req.pavuser = { 
+								uid: meResponse.uid,
+								name: meResponse.name,
+								code: req.session.pavlok_token	
+							};
 							serveNewFile(req, res);
 						}
 					});
