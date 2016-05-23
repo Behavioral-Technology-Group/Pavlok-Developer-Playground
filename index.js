@@ -201,7 +201,9 @@ app.get("/success", function(req, res){
 });
 
 function serveNewFile(req, res){
-	return res.render("index.html");
+	return res.render("file_new.html", {
+		name: req.pavuser.name
+	});
 }
 
 app.get("/", serveNewFile);
