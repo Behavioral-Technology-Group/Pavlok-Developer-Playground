@@ -203,7 +203,8 @@ app.get("/success", function(req, res){
 function serveNewFile(req, res){
 	return res.render("new_file.html", {
 		name: req.pavuser.name,
-		initialCode: "pavlok.vibrate(50);"
+		uid: req.pavuser.uid,
+		code: req.pavuser.code
 	});
 }
 
@@ -279,22 +280,6 @@ app.post("/update_file", function(req, res){
 			res.status(200).send();
 		}
 	});
-});
-
-//Serve the context object -- this actually provides the information used
-//on the client-side for populating the page
-app.get("/context.js", function(req, res){
-	res.setHeader("Content-Type", "text/javascript");
-	var context = "var pavCtx = ";
-	var contextObject = {
-		code: req.pavuser.token,
-		name: req.pavuser.name,
-		uid: req.pavuser.uid
-	};
-	context += JSON.stringify(contextObject);
-	context += ";";
-	res.status(200).send(context);
-
 });
 
 //Logout of the server

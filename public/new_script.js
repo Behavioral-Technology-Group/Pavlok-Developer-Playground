@@ -51,10 +51,6 @@ window.onload = function(){
 		sendRequest();
 	});
 	
-	$("#share").click(function() {
-		alert("TODO");
-	});
-	
 	$("#save-file-button").click(function() {
 		var filename = $("#file-name").val()
 		if(filename == null || filename.length < 1){
@@ -70,4 +66,7 @@ window.onload = function(){
 		mode: "javascript",
 		lineWrapping: true
 	});
+	
+	//Set default text in editor
+	editor.setValue("pavlok.vibrate(50);");
 };
