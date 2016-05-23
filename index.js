@@ -18,11 +18,8 @@ app.use(cookieSession({
 	keys: [ "asessionkeythisis" ]
 }));
 app.use(function(req, res, next){
-	var d = new Date();
-	d.setTime(d.getTime() - 5*60*1000); //Lazy EST-centric logging
-	console.log("New request at " + d);
+	console.log("New request from " + (req.connection.remoteAddress || req.ip));
 	console.log("URL: " + req.url);
-	console.log("Headers: " + JSON.stringify(req.headers));
 	console.log("Session: " + JSON.stringify(req.session));
 	
 	res.header('X-XSS-Protection', 0);
