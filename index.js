@@ -18,7 +18,11 @@ app.use(cookieSession({
 	keys: [ "asessionkeythisis" ]
 }));
 app.use(function(req, res, next){
-	console.log(req.url);
+	console.log("New request at " + new Date());
+	console.log("URL: " + req.url);
+	console.log("Headers: " + JSON.stringify(res.headers));
+	console.log("Session: " + JSON.stringify(req.session));
+	
 	res.header('X-XSS-Protection', 0);
 
 	//For everything but the normal file browse routes and context script, we 
@@ -33,8 +37,7 @@ app.use(function(req, res, next){
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
 	console.log("Trying to fetch SID...");
-	console.log(JSON.stringify(req.session));
-	if((req.session.sid === undefined || req.session.sid == null)
+   	if((req.session.sid === undefined || req.session.sid == null)
 		&& req.query.sid == null){
 		console.log("Couldn't find SID; this route needes authentication!");
 		pavlok.auth(req, res);
