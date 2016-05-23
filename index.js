@@ -21,10 +21,10 @@ app.use(cookieSession({
 app.use(function(req, res, next){
 	console.log("-------------------------------");
 	console.log(req.url + " requested from " + (req.connection.remoteAddress || req.ip));
-	if(req.body){
+	if(req.body && Object.keys(req.body).length > 0){
 		console.log("Body: " + JSON.stringify(req.body));
 	}
-	if(req.params){
+	if(req.params && Object.keys(req.params).length > 0){
 		console.log("Params: " + JSON.stringify(req.params));	
 	}
 
@@ -41,7 +41,6 @@ app.use(function(req, res, next){
 	//Perform user lookup for the / route and the /context.js route to let 
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
-	console.log("Trying to fetch SID...");
    	if((req.session.sid === undefined || req.session.sid == null)
 		&& req.query.sid == null){
 		console.log("Couldn't find SID; this route needes authentication!");
@@ -55,7 +54,7 @@ app.use(function(req, res, next){
 					console.log("Session fetch error!");
 					pavlok.auth(res, req);
 				} else {
-					console.log("Fetched user data from session ID!");
+					console.log("Fetched user: " + rows[0].name + "(" + rows[0].uid + ")");
 					req.pavuser = { //We populate the 'pavuser' object
 						uid: rows[0].uid,
 						name: rows[0].name,
