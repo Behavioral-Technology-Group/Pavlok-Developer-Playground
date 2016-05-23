@@ -25,30 +25,34 @@ function sendRequest(){
 	$("#result").append("<div>" + result + "</div>");
 };
 
-function saveFile(filename){
+function saveFile(){
 	//Send an AJAX request to save; once we get the result, redirect to result URL
 	$.ajax({
 		method: "POST",
-		url: "/save_file",
+		url: "/update_file",
 		header: {
 			"Cookie": document.cookie
 		},
 		data: {
-			uid: pavCtx.uid,
+			fid: fileCtx.id,
 			code: editor.getValue()
 		}
 	})
 	.fail(function(xhr, status, error){
-		console.log(xhr.status.code);
+		toastr.error("Failed to save file.");
 	})
 	.done(function(message){
-		window.location.replace("/file/" + message.fid);
+		toastr.success("File saved.");
 	});
 };
 
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
+	});
+	
+	$("#save").click(function() {
+		saveFile();
 	});
 	
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
