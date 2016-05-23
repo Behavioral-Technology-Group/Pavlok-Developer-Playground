@@ -46,15 +46,14 @@ app.use(function(req, res, next){
 		console.log("Couldn't find SID; this route needes authentication!");
 		pavlok.auth(req, res);
 	} else {
-		console.log("Found SID; looking for matching user...");
 		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE session_id=$1",
 			[req.session.sid || req.query.sid],
 			function(error, rows){
 				if(error){
-					console.log("Session fetch error!");
+					console.log("Session fetch error from SID!");
 					pavlok.auth(res, req);
 				} else {
-					console.log("Fetched user: " + rows[0].name + "(" + rows[0].uid + ")");
+					console.log("Fetched user: " + rows[0].name + " (" + rows[0].uid + ")");
 					req.pavuser = { //We populate the 'pavuser' object
 						uid: rows[0].uid,
 						name: rows[0].name,

@@ -30,10 +30,10 @@ function saveFile(filename){
 	$.ajax({
 		method: "POST",
 		url: "/save_file",
-		data: JSON.stringify({
+		data: {
 			uid: pavCtx.uid,
 			code: editor.getValue()
-		})
+		}
 	})
 	.fail(function(xhr, status, error){
 		console.log(xhr.status.code);
