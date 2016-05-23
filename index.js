@@ -4,6 +4,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
+var handlebars = require('handlebars');
 var uuid = require('node-uuid');
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -195,6 +196,28 @@ app.get("/", serveNewFile);
 
 app.get("/file/:fname", function(req, res, next){
 	res.send("Didn't do getting " + req.params.fname + " yet (I think there's a status code for this...)");
+});
+
+//Upload a file
+app.post("/save_file", function(req, res){
+	var code = req.body.code;
+	var uid = req.body.uid;
+	var shareType = "private";
+
+	if(code == null || uid == null){
+		res.status(400).send("No data given!");
+		return;
+	}
+
+	setupQuery("INSERT INTO Files (owner, code, share_type) VALUES ($1, $2, $3) RETURNING fid",
+		[uid, code, shareType],
+		function(error, rows){
+			if(rows.length > 0){
+				res.send(200).json( { error: null, "fid": rows[0].fid } );
+			} else {
+				res.send(500).send(JSON.stringify(error));
+			}
+		});
 });
 
 //Serve the context object -- this actually provides the information used

@@ -25,17 +25,31 @@ function sendRequest(){
 	$("#result").append("<div>" + result + "</div>");
 };
 
+function saveFile(filename){
+	//Send an AJAX request to save; once we get the result, redirect to result URL
+	
+};
+
 window.onload = function(){
 	$("#run").click(function() {
-		sendRequest();
-	});
-	$("#save").click(function() {
 		sendRequest();
 	});
 	$("#share").click(function() {
 		sendRequest();
 	});
-	$("#login-message").text("Welcome " + pavCtx.name + ".");
+	
+	$("#save-file-button").click(function() {
+		var filename = $("#file-name").val()
+		if(filename == null || filename.length < 1){
+			$('#file-name').tooltip({ title: "You must enter a filename." })
+			return;
+		}
+		saveFile(filename);
+		$("#save-modal").modal("hide");	
+	});
+	try {
+		$("#login-message").text("Welcome " + pavCtx.name + ".");
+	} catch (e) {}
 
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
