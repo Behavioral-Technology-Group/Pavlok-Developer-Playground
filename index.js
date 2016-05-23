@@ -279,7 +279,7 @@ app.post("/update_file", function(req, res){
 		sqlParams.push(req.body.code);
 	}
 
-	sql += " WHERE owner=$" + (sqlParams.length + 1) + " fid=$" + (sqlParams.length + 2);
+	sql += " WHERE owner=$" + (sqlParams.length + 1) + " AND fid=$" + (sqlParams.length + 2);
 	sqlParams.push(req.pavuser.uid);
 	sqlParams.push(req.body.fid);
 
