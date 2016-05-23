@@ -200,7 +200,16 @@ function serveNewFile(req, res){
 app.get("/", serveNewFile);
 
 app.get("/file/:fname", function(req, res, next){
-	res.send("Didn't do getting " + req.params.fname + " yet (I think there's a status code for this...)");
+	//Try and get file
+	setupQuery("SELECT * FROM Files WHERE fid=$1 AND owner=$2",
+		[ req.params.fname, req.pavuser.uid ],
+		function(error, rows){
+			if(error){
+				res.status(404).send("File not found or inaccessible.");
+			} else {
+				res.status(200).send(rows[0].code);
+			}
+		});
 });
 
 //Upload a file
