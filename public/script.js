@@ -35,6 +35,7 @@ window.onload = function(){
 	$("#share").click(function() {
 		sendRequest();
 	});
+	$("#login-message").text("Welcome " + pavCtx.name + ".");
 
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
