@@ -27,7 +27,7 @@ function sendRequest(){
 
 function saveFile(filename){
 	//Send an AJAX request to save; once we get the result, redirect to result URL
-	
+		
 };
 
 window.onload = function(){
