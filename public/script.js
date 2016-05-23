@@ -39,7 +39,7 @@ function saveFile(filename){
 		console.log(xhr.status.code);
 	})
 	.done(function(message){
-		console.log(message);
+		window.location.replace("/file" + message.fid);
 	});
 };
 
