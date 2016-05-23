@@ -4,7 +4,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
-var handlebars = require('handlebars');
+var nunjucks = require('nunjucks');
 var uuid = require('node-uuid');
 var pg = require('pg');
 pg.defaults.ssl = true;
@@ -66,6 +66,10 @@ app.use(function(req, res, next){
 			});
 	}
 });
+nunjucks.configure("views", {
+	autoescape: true,
+	express: app
+});
 
 //Postgres connect
 var client;
@@ -92,7 +96,10 @@ function establishSession(req, res, meResponse){
 					[meResponse.uid, sid],
 					function(error, rows){
 						if(error){
-							res.status(500).send("Failed to create session!");
+							res.status(500);
+							res.render("error.html", {
+								message: "Error creating session!"
+							});
 						} else {
 							req.session.sid = sid;
 							console.log("SID is now: " + req.session.sid );
@@ -194,7 +201,7 @@ app.get("/success", function(req, res){
 });
 
 function serveNewFile(req, res){
-	return res.sendFile(__dirname + "/public/index.html");
+	return res.render("index.html");
 }
 
 app.get("/", serveNewFile);
