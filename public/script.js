@@ -27,7 +27,20 @@ function sendRequest(){
 
 function saveFile(filename){
 	//Send an AJAX request to save; once we get the result, redirect to result URL
-		
+	$.ajax({
+		method: "POST",
+		url: "/save_file",
+		data: JSON.stringify({
+			uid: pavCtx.uid,
+			code: editor.getValue()
+		})
+	})
+	.fail(function(xhr, status, error){
+		console.log(xhr.status.code);
+	})
+	.done(function(message){
+		console.log(message);
+	});
 };
 
 window.onload = function(){
