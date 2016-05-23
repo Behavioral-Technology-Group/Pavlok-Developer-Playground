@@ -58,5 +58,5 @@ window.onload = function(){
 	});
 	
 	//Set file text in editor
-	editor.setValue(fileCtx.content);
+	editor.setValue(unescape(fileCtx.content));
 };
