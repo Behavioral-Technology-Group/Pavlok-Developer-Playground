@@ -203,7 +203,7 @@ app.get("/context.js", function(req, res){
 	res.setHeader("Content-Type", "text/javascript");
 	var context = "var pavCtx = ";
 	var contextObject = {
-		code: req.pavuser.code,
+		code: req.pavuser.token,
 		name: req.pavuser.name,
 		uid: req.pavuser.uid
 	};
