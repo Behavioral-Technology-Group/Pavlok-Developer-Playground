@@ -217,6 +217,7 @@ app.get("/context.js", function(req, res){
 app.get("/logout", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		pavlok.logout(req);
+		req.session.sid = null;
 		return res.status(200).send("Logged out.");
 	} else {
 		return res.status(404).send("You weren't signed in.");
