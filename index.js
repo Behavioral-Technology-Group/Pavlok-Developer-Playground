@@ -203,7 +203,7 @@ app.get("/success", function(req, res){
 function serveNewFile(req, res){
 	return res.render("new_file.html", {
 		name: req.pavuser.name,
-		initialCode: "pavlok.vibrate(50);\npavlok.beep(50);"
+		initialCode: "pavlok.vibrate(50);"
 	});
 }
 
