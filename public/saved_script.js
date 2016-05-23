@@ -26,7 +26,6 @@ function sendRequest(){
 };
 
 function saveFile(){
-	//Send an AJAX request to save; once we get the result, redirect to result URL
 	$.ajax({
 		method: "POST",
 		url: "/update_file",
@@ -46,6 +45,28 @@ function saveFile(){
 	});
 };
 
+function deleteFile(){
+	$.ajax({
+		method: "POST",
+		url: "/delete_file",
+		header: {
+			"Cookie": document.cookie
+		},
+		data: {
+			fid: fileCtx.id
+		}
+	})
+	.fail(function(xhr, status, error){
+		toastr.error("Failed to delete file.");
+	})
+	.done(function(message){
+		toastr.success("File delete.");
+		setTimeout(function(){
+			window.location.replace("/");
+		}, 1000);
+	});
+};
+
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
@@ -53,6 +74,10 @@ window.onload = function(){
 	
 	$("#save").click(function() {
 		saveFile();
+	});
+	
+	$("#delete").click(function() {
+		deleteFile();
 	});
 	
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {

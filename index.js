@@ -297,6 +297,34 @@ app.post("/update_file", function(req, res){
 	});
 });
 
+//Delete a file
+app.post("/delete_file", function(req, res){
+	if(req.body.fid == null){
+		res.status(400).send();
+		return;
+	}
+
+	setupQuery("SELECT FROM Files WHERE fid=$1 AND owner=$2",
+		[req.body.fid, req.pavuser.uid],
+		function(error, rows){
+			if(error){
+				res.status(400).send();
+			} else {
+				setupQuery("DELETE FROM Files WHERE fid=$1",
+					[req.body.fid],
+					function(error, rows){
+						if(error){
+							res.status(400).send();
+						} else {
+							res.status(200).send();
+						}
+					}); 
+			}
+		});
+});
+
+
+
 //Logout of the server
 app.get("/logout", function(req, res){
 	if(pavlok.isLoggedIn(req)){
