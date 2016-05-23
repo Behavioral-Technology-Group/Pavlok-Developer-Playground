@@ -26,7 +26,7 @@ log.clear = function(){
 var pavlok = {};
 pavlok.generic = function(route, percent){
 	//Fetch auth code
-	var authCode = pavCtx.auth;
+	var authCode = pavCtx.code;
 	var intensity = Math.floor(percent * 2.55);
 	if(intensity > 255) intensity = 255;
 	if(intensity < 0) intensity = 1;
