@@ -32,7 +32,8 @@ app.use(function(req, res, next){
 	//Perform user lookup for the / route and the /context.js route to let 
 	//these routes populate themselves as needed with user information, or redirect
 	//to a proper page
-	console.log("Trying to fetch SID..."); 
+	console.log("Trying to fetch SID...");
+	console.log(JSON.stringify(req.session));
 	if((req.session.sid === undefined || req.session.sid == null)
 		&& req.query.sid == null){
 		console.log("Couldn't find SID; this route needes authentication!");
@@ -184,7 +185,7 @@ app.get("/success", function(req, res){
 });
 
 function serveNewFile(req, res){
-	return res.sendfile(__dirname + "/public/index.html");
+	return res.sendFile(__dirname + "/public/index.html");
 }
 
 app.get("/", serveNewFile);
