@@ -34,6 +34,7 @@ app.use(function(req, res, next){
 	//For everything but the normal file browse routes and context script, we 
 	//proceed to the next route
 	if(req.url != "/" && req.url != "/context.js" && req.url != "/index.html" 
+		&& req.url != "/save_file" && req.url != "/update_file"
 		&& !req.url.startsWith("/file/")){
 		next();
 		return;
@@ -210,6 +211,10 @@ app.post("/save_file", function(req, res){
 
 	if(code == null || uid == null){
 		res.status(400).send("No data given!");
+		return;
+	}
+	if(uid != req.pavuser.uid){
+		res.stats(400).send("You can't update another user's files!");
 		return;
 	}
 

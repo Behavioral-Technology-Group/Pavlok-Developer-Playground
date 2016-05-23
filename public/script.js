@@ -30,6 +30,9 @@ function saveFile(filename){
 	$.ajax({
 		method: "POST",
 		url: "/save_file",
+		header: {
+			"Cookie": document.cookie
+		},
 		data: {
 			uid: pavCtx.uid,
 			code: editor.getValue()
