@@ -239,7 +239,36 @@ app.post("/save_file", function(req, res){
 });
 
 //Update a file's code
-app.post("/update_code", function(req, res){
+app.post("/update_file", function(req, res){
+	var sql = "UPDATE Files SET ";
+	var sqlParams = [];
+
+	if(req.body.fid == null){
+		res.status(400).send();
+		return;
+	}
+
+	if(req.body.share_type != null && (req.body.share_type == "private" || req.body.share_type == "public")){
+		sql += "share_type=$" + (sqlParams.length + 1);
+		sqlParams.push(req.body.share_type);
+	}
+
+	if(req.body.code != null){
+		sql += "code=$" + (sqlParams.length + 1);
+		sqlParams.push(req.body.code);
+	}
+
+	sql += " WHERE owner=$" + (sqlParams.length + 1) + " fid=$" + (sqlParams.length + 2);
+	sqlParams.push(req.pavuser.uid);
+	sqlParams.push(req.body.fid);
+
+	setupQuery(sql, sqlParams, function(error, rows){
+		if(error){
+			res.status(400).send();
+		} else {
+			res.status(200).send();
+		}
+	});
 });
 
 //Serve the context object -- this actually provides the information used
