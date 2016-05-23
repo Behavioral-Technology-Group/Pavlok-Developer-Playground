@@ -35,8 +35,7 @@ function saveFile(filename){
 		},
 		data: {
 			uid: pavCtx.uid,
-			code: editor.getValue(),
-			fname: $("#file-name").val()
+			code: editor.getValue()
 		}
 	})
 	.fail(function(xhr, status, error){
@@ -52,22 +51,12 @@ window.onload = function(){
 		sendRequest();
 	});
 	
-	$("#save-file-button").click(function() {
-		var filename = $("#file-name").val()
-		if(filename == null || filename.length < 1){
-			$('#file-name').tooltip({ title: "You must enter a filename." })
-			return;
-		}
-		saveFile(filename);
-		$("#save-modal").modal("hide");	
-	});
-	
 	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 		lineNumbers: true,
 		mode: "javascript",
 		lineWrapping: true
 	});
 	
-	//Set default text in editor
-	editor.setValue("pavlok.vibrate(50);");
+	//Set file text in editor
+	editor.setValue(fileCtx.content);
 };

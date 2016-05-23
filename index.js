@@ -82,7 +82,6 @@ pg.connect(process.env.DATABASE_URL, function(err, cli){
 	}
 });
 
-
 //Create a session and drop the required cookies
 function establishSession(req, res, meResponse){
 	var sid = uuid.v4();
@@ -216,9 +215,19 @@ app.get("/file/:fname", function(req, res, next){
 		[ req.params.fname, req.pavuser.uid ],
 		function(error, rows){
 			if(error || rows.length == 0){
-				res.status(404).send("File not found or inaccessible.");
+				res.status(404);
+				return res.render("error.html", {
+					message: "File not found or inaccessible."
+				});
 			} else {
-				res.status(200).send(rows[0].code);
+				return res.render("saved_file.html", {
+					name: req.pavuser.name,
+					uid: req.pavuser.uid,
+					code: req.pavuser.code,
+					fileName: rows[0].fname,
+					content: rows[0].code,
+					fid: rows[0].fid
+				});
 			}
 		});
 });
@@ -227,9 +236,10 @@ app.get("/file/:fname", function(req, res, next){
 app.post("/save_file", function(req, res){
 	var code = req.body.code;
 	var uid = req.body.uid;
+	var fname = req.body.fname;
 	var shareType = "private";
 
-	if(code == null || uid == null){
+	if(code == null || uid == null || fname == null){
 		res.status(400).send("No data given!");
 		return;
 	}
@@ -238,8 +248,8 @@ app.post("/save_file", function(req, res){
 		return;
 	}
 
-	setupQuery("INSERT INTO Files (owner, code, share_type) VALUES ($1, $2, $3) RETURNING fid",
-		[uid, code, shareType],
+	setupQuery("INSERT INTO Files (owner, fname, code, share_type) VALUES ($1, $2, $3, $4) RETURNING fid",
+		[uid, fname, code, shareType],
 		function(error, rows){
 			if(rows.length > 0){
 				res.status(200).json( { error: null, "fid": rows[0].fid } );
