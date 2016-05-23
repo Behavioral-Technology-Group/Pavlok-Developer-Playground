@@ -225,7 +225,7 @@ app.get("/file/:fname", function(req, res, next){
 					uid: req.pavuser.uid,
 					code: req.pavuser.code,
 					fileName: rows[0].fname,
-					content: rows[0].code.escape(),
+					content: escape(rows[0].code),
 					fid: rows[0].fid
 				});
 			}
