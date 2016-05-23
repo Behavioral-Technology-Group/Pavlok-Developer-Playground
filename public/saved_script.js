@@ -60,7 +60,7 @@ function deleteFile(){
 		toastr.error("Failed to delete file.");
 	})
 	.done(function(message){
-		toastr.success("File delete.");
+		toastr.success("File deleted.");
 		setTimeout(function(){
 			window.location.replace("/");
 		}, 1000);
