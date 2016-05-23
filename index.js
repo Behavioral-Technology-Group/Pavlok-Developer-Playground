@@ -19,10 +19,15 @@ app.use(cookieSession({
 	keys: [ "asessionkeythisis" ]
 }));
 app.use(function(req, res, next){
-	console.log("New request from " + (req.connection.remoteAddress || req.ip));
-	console.log("URL: " + req.url);
-	console.log("Session: " + JSON.stringify(req.session));
-	
+	console.log("-------------------------------");
+	console.log(req.url + " requested from " + (req.connection.remoteAddress || req.ip));
+	if(req.body){
+		console.log("Body: " + JSON.stringify(req.body));
+	}
+	if(req.params){
+		console.log("Params: " + JSON.stringify(req.params));	
+	}
+
 	res.header('X-XSS-Protection', 0);
 
 	//For everything but the normal file browse routes and context script, we 
