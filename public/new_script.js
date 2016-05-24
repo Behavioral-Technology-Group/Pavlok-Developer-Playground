@@ -51,6 +51,7 @@ function showSnippet(e){
 	var snippetId = e.target.id;
 	var snippet = snippetId.replace("_snippet_", "");
 	console.log(snippet);
+	console.log(e);
 }
 
 window.onload = function(){
