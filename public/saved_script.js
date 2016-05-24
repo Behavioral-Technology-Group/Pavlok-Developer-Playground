@@ -58,7 +58,7 @@ function changeVisibility(visibility){
 	.done(function(message){
 		toastr.success("File changed to " + visibility + ".");
 		fileCtx.visibility = visibility;
-		$("share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
+		$("#share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
 	});
 	
 }
@@ -81,7 +81,7 @@ function postEditorInit(){
 	});
 	
 	//Set visibility button
-	$("share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
+	$("#share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
 	
 	//Set file name
 	$("#file-menu-button").html(fileCtx.fileName + " <span class=\"caret\"></span>");
