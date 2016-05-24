@@ -244,8 +244,8 @@ function serveNewFile(req, res){
 		name: req.pavuser.name,
 		uid: req.pavuser.uid,
 		code: req.pavuser.code,
-		ownedFiles: fetchOwnedFiles(req.pavuser.uid),
-		sharedFiles: fetchSharedFiles(req.pavuser.uid)
+		ownedFiles: JSON.stringify(fetchOwnedFiles(req.pavuser.uid)),
+		sharedFiles: JSON.stringify(fetchSharedFiles(req.pavuser.uid))
 	});
 }
 
