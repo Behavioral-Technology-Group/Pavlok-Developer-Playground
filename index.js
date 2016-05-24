@@ -220,8 +220,7 @@ function fetchOwnedFiles(uid){
 }
 
 function fetchSharedFiles(uid){
-	setupQuery("SELECT * FROM Files f INNER JOIN Shared_With s ON f.fid=s.fid"
-		+ " INNER JOIN Users u ON f.owner=u.uid WHERE s.grantee=$1",
+	setupQuery("SELECT * FROM Files f INNER JOIN Shared_With s ON f.fid=s.file_id INNER JOIN Users u ON f.owner=u.uid WHERE s.grantee=$1",
 		[uid],
 		function(error, rows){
 			if(error){
