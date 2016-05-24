@@ -200,7 +200,7 @@ app.get("/success", function(req, res){
 	});
 });
 
-function fetchFiles(uid){
+function fetchOwnedFiles(uid){
 	setupQuery("SELECT * FROM Files WHERE owner=$1",
 		[ uid ],
 		function(error, rows){
