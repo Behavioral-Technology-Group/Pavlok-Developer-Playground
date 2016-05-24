@@ -167,9 +167,18 @@ app.get("/success", function(req, res){
 	}, function(error, response, body){
 		if(error){
 			console.log(JSON.stringify(error));
-			res.redirect("/error");
+			return res.render("error.html", {
+					message: "Error authenticating!"
+			});
 		} else {
-			var meResponse = JSON.parse(body);
+			var meResponse;
+			try {
+				meResponse = JSON.parse(body);
+			} catch (e) {
+				return res.render("error.html", {
+					message: "Error authenticating!"
+				});
+			}
 			setupQuery("SELECT FROM Users WHERE uid=$1",
 				[meResponse.uid],
 				function(error, rows){
