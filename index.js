@@ -201,12 +201,14 @@ app.get("/success", function(req, res){
 });
 
 function fetchOwnedFiles(uid){
+	console.log("Fetching files for " + uid);
 	setupQuery("SELECT * FROM Files WHERE owner=$1",
 		[ uid ],
 		function(error, rows){
 			if(error){
 				return [];
 			} else {
+				console.log("Found " + rows.length + " files");
 				var files = [];
 				for(var i = 0; i < rows.length; i++){
 					var fname = rows[i].fname;
