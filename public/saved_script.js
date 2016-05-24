@@ -63,7 +63,7 @@ function deleteFile(){
 		toastr.success("File deleted.");
 		setTimeout(function(){
 			window.location.replace("/");
-		}, 1000);
+		}, 750);
 	});
 };
 

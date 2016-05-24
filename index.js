@@ -246,6 +246,7 @@ function serveNewFile(req, res){
 			name: req.pavuser.name,
 			uid: req.pavuser.uid,
 			code: req.pavuser.code,
+			email: req.pavuser.email,
 			ownedFiles: JSON.stringify(owned),
 			sharedFiles: JSON.stringify(shared)
 		});
@@ -270,6 +271,7 @@ app.get("/file/:fname", function(req, res, next){
 						name: req.pavuser.name,
 						uid: req.pavuser.uid,
 						code: req.pavuser.code,
+						email: req.pavuser.email,
 						ownedFiles: JSON.stringify(owned),
 						sharedFiles: JSON.stringify(shared),
 						fileName: rows[0].fname,
