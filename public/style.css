@@ -26,16 +26,16 @@
 
 #block-bar {
 	display: block;
+	margin-bottom: 1.5em;
+	width: 100%;
 }
 
 #file-listings {
-	display: float;
 	float: left;
 }
 
 #upper-buttons {
-	display: float;
-	float: left;
+	float: right;
 }
 
 #logs {
