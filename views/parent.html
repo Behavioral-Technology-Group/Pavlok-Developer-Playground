@@ -38,15 +38,19 @@
 	{% block topLayout %}
 	<div id="block-bar">
 		<div id="file-listings">
-			Files
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Open A File
+				<span class="caret"></span></button>
+				<ul id="file-menu" class="dropdown-menu">
+					<li class="dropdown-header">Owned Files</li>
+				</ul>
+			</div>
 		</div>
 		
 		<div id="upper-buttons">
 			<button type="button" id="snippet-button" data-toggle="modal" data-target="#snippet-modal" class="btn btn-default"><span class="glyphicon glyphicon-scissors" aria-hidden="true"></span> Snippets</button>
 		</div>
 	</div>
-	
-	<br />
 	{% endblock %}
 	
 	<!-- Code area -->

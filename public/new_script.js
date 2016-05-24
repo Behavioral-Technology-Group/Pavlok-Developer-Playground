@@ -68,6 +68,15 @@ window.onload = function(){
 		lineWrapping: true
 	});
 	
+	//Populate file listings
+	for(var i = 0; i < pavCtx.ownedFiles.length; i++){
+		$("#file-menu").append("<li><a href=\"#\">" + pavCtx.ownedFiles[i].name + "</a></li>");
+	}
+	$("#file-menu").append("<li class=\"dropdown-header\">Shared Files</li>");
+		for(var i = 0; i < pavCtx.sharedFiles.length; i++){
+		$("#file-menu").append("<li><a href=\"#\">" + pavCtx.sharedFiles[i].name + "</a></li>");
+	}
+	
 	//Set default text in editor
 	editor.setValue("pavlok.vibrate(50);");
 };
