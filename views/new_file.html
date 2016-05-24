@@ -4,6 +4,10 @@
 	<script src="new_script.js"></script>
 {% endblock %}
 
+{% block topLayout %}
+{{ super() }}
+{% endblock %}
+
 {% block buttons %}
 	<div class="btn-group" role="group">
 		<button type="button" id="run" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run</button>

@@ -24,6 +24,19 @@
 	overflow-x: auto;
 }
 
+#block-bar {
+}
+
+#file-listings {
+	display: float;
+	float: left;
+}
+
+#upper-buttons {
+	display: float;
+	float: left;
+}
+
 #logs {
 	display: block;
 	margin-top: 1em;

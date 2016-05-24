@@ -33,9 +33,19 @@
 			<small id="login-message">Signed in as {{ email }}.</small>
 			<small id="logout-button"><a href="/logout">Logout</a></small>
 		</h1>
-		
-		<!-- TODO: File listings -->
 	</div>
+	
+	{% block topLayout %}
+	<div id="block-bar">
+		<div id="file-listings">
+			Files
+		</div>
+		
+		<div id="upper-buttons">
+			Buttons
+		</div>
+	</div>
+	{% endblock %}
 	
 	<!-- Code area -->
 	<textarea id="code" autocomplete="false" spellcheck="false">
