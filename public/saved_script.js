@@ -95,6 +95,9 @@ window.onload = function(){
 		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
 	}
 	
+	//Set file name
+	$("#file-menu-button").html(fileCtx.fileName + "<span class=\"caret\"></span>");
+	
 	//Set file text in editor
 	editor.setValue(unescape(fileCtx.content));
 };
