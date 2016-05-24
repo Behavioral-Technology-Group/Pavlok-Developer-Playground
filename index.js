@@ -59,7 +59,8 @@ app.use(function(req, res, next){
 					req.pavuser = { //We populate the 'pavuser' object
 						uid: rows[0].uid,
 						name: rows[0].name,
-						code: rows[0].token	
+						code: rows[0].token,
+						email: rows[0].email	
 					};
 					next();
 				}
