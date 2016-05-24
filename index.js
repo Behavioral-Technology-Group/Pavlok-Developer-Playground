@@ -285,7 +285,8 @@ app.get("/file/:fname", function(req, res, next){
 						sharedFiles: JSON.stringify(shared),
 						fileName: rows[0].fname,
 						content: escape(rows[0].code),
-						fid: rows[0].fid
+						fid: rows[0].fid,
+						fileVisibility: rows[0].share_type
 					});
 				});
 			}

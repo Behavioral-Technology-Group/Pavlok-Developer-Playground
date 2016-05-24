@@ -40,6 +40,29 @@ function deleteFile(){
 	});
 };
 
+function changeVisibility(visibility){
+	$.ajax({
+		method: "POST",
+		url: "/update_file",
+		header: {
+			"Cookie": document.cookie
+		},
+		data: {
+			fid: fileCtx.id,
+			share_type: visibility
+		}
+	})
+	.fail(function(xhr, status, error){
+		toastr.error("Failed to make file " + visibility + ".");
+	})
+	.done(function(message){
+		toastr.success("File changed to " + visibility + ".");
+		fileCtx.visibility = visibility;
+		$("share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
+	});
+	
+}
+
 function postEditorInit(){
 	$("#run").click(function() {
 		sendRequest();
@@ -49,9 +72,16 @@ function postEditorInit(){
 		saveFile();
 	});
 	
+	$("#share-public").click(function() {
+		changeVisibility(fileCtx.visibility == "public" ? "private" : "public");
+	});
+	
 	$("#delete").click(function() {
 		deleteFile();
 	});
+	
+	//Set visibility button
+	$("share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
 	
 	//Set file name
 	$("#file-menu-button").html(fileCtx.fileName + " <span class=\"caret\"></span>");
