@@ -200,34 +200,31 @@ app.get("/success", function(req, res){
 	});
 });
 
-function fetchOwnedFiles(uid){
-	console.log("Fetching files for " + uid);
+function fetchUserFiles(uid, callback){
 	setupQuery("SELECT * FROM Files WHERE owner=$1",
 		[ uid ],
 		function(error, rows){
 			if(error){
-				return [];
+				callback([], []);
 			} else {
-				console.log("Found " + rows.length + " files");
-				var files = [];
+				var ownedFiles = [];
 				for(var i = 0; i < rows.length; i++){
 					var fname = rows[i].fname;
 					var fid = rows[i].fid;
 
-					files.push({ name: fname, id: fid });
+					ownedFiles.push({ name: fname, id: fid });
 				}
-				console.log("Returning " + JSON.stringify(files));
-				return files;
+				fetchSharedFiles(uid, ownedFiles, callback);				
 			}
 		});
 }
 
-function fetchSharedFiles(uid){
+function fetchSharedFiles(uid, ownedFiles, callback){
 	setupQuery("SELECT * FROM Files f INNER JOIN Shared_With s ON f.fid=s.file_id INNER JOIN Users u ON f.owner=u.uid WHERE s.grantee=$1",
 		[uid],
 		function(error, rows){
 			if(error){
-				return [];
+				callback(ownedFiles, []);
 			} else {
 				var files = [];
 				for(var i = 0; i < rows.length; i++){
@@ -237,20 +234,20 @@ function fetchSharedFiles(uid){
 
 					files.push({ name: fname, id: fid, granter: granter });	
 				}
-				return files;
+				callback(ownedFiles, files);
 			}
 		});
 }
 
 function serveNewFile(req, res){
-	var owned = JSON.stringify(fetchOwnedFiles(req.pavuser.uid));
-	console.log("Sending " + owned);
-	return res.render("new_file.html", {
-		name: req.pavuser.name,
-		uid: req.pavuser.uid,
-		code: req.pavuser.code,
-		ownedFiles: owned,
-		sharedFiles: JSON.stringify(fetchSharedFiles(req.pavuser.uid))
+	fetchUserFiles(req.pavuser.uid, function(owned, shared){
+		return res.render("new_file.html", {
+			name: req.pavuser.name,
+			uid: req.pavuser.uid,
+			code: req.pavuser.code,
+			ownedFiles: JSON.stringify(owned),
+			sharedFiles: JSON.stringify(shared)
+		});
 	});
 }
 
