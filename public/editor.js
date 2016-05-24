@@ -48,7 +48,7 @@ window.onload = function(){
 	});
 	
 	//Populate file listings
-	if(pavCtx.ownedFiles !== "undefined"){ //Check needed for shared files
+	if($("#file-menu")[0] !== undefined){
 		for(var i = 0; i < pavCtx.ownedFiles.length; i++){
 			$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
 		}
