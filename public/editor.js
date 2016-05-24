@@ -48,12 +48,14 @@ window.onload = function(){
 	});
 	
 	//Populate file listings
-	for(var i = 0; i < pavCtx.ownedFiles.length; i++){
-		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
-	}
-	$("#file-menu").append("<li class=\"dropdown-header\">Shared Files</li>");
-	for(var i = 0; i < pavCtx.sharedFiles.length; i++){
-		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
+	if(pavCtx.ownedFiles !== "undefined"){ //Check needed for shared files
+		for(var i = 0; i < pavCtx.ownedFiles.length; i++){
+			$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
+		}
+		$("#file-menu").append("<li class=\"dropdown-header\">Shared Files</li>");
+		for(var i = 0; i < pavCtx.sharedFiles.length; i++){
+			$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
+		}
 	}
 	
 	//Enable snippets

@@ -267,7 +267,7 @@ app.get("/", serveNewFile);
 
 app.get("/file/:fname", function(req, res, next){
 	//Try and get file
-	setupQuery("SELECT * FROM Files WHERE fid=$1 AND owner=$2",
+	setupQuery("SELECT * FROM Files WHERE fid=$1",
 		[ req.params.fname, req.pavuser.uid ],
 		function(error, rows){
 			if(error || rows.length == 0){
@@ -276,21 +276,58 @@ app.get("/file/:fname", function(req, res, next){
 					message: "File not found or inaccessible."
 				});
 			} else {
-				fetchUserFiles(req.pavuser.uid, function(owned, shared){
-					return res.render("saved_file.html", {
-						name: req.pavuser.name,
-						uid: req.pavuser.uid,
-						code: req.pavuser.code,
-						email: req.pavuser.email,
-						ownedFiles: JSON.stringify(owned),
-						sharedFiles: JSON.stringify(shared),
-						fileName: rows[0].fname,
-						content: escape(rows[0].code),
-						fid: rows[0].fid,
-						fileVisibility: rows[0].share_type
+				//Compare user ID with owner; if owner, render file
+				if(rows[0].owner == req.pavuser.uid){
+					fetchUserFiles(req.pavuser.uid, function(owned, shared){
+						return res.render("saved_file.html", {
+							name: req.pavuser.name,
+							uid: req.pavuser.uid,
+							code: req.pavuser.code,
+							email: req.pavuser.email,
+							ownedFiles: JSON.stringify(owned),
+							sharedFiles: JSON.stringify(shared),
+							fileName: rows[0].fname,
+							content: escape(rows[0].code),
+							fid: rows[0].fid,
+							fileVisibility: rows[0].share_type
+						});
 					});
-				});
-			}
+				} else {
+					if(rows[0].share_type == "public"){
+						return res.render("shared_file.html", {
+							name: req.pavuser.name,
+							uid: req.pavuser.uid,
+							code: req.pavuser.code,
+							email: req.pavuser.email,
+							fileName: rows[0].fname,
+							content: escape(rows[0].code),
+							fid: rows[0].fid
+						});
+					} else {
+						//Last-ditch attempt: check to see if there's a Shared_With relationship
+						setupQuery("SELECT * FROM Shared_With WHERE grantee=$1 AND file_id=$2",
+							[req.pavuser.uid, rows[0].fid],
+							function(error, rows){
+								if(error || rows.length == 0){
+									res.status(404);
+									return res.render("error.html", {
+										message: "File not found or inaccessible."
+									});
+								} else {
+									return res.render("shared_file.html", {
+										name: req.pavuser.name,
+										uid: req.pavuser.uid,
+										code: req.pavuser.code,
+										email: req.pavuser.email,
+										fileName: rows[0].fname,
+										content: escape(rows[0].code),
+										fid: rows[0].fid
+									});
+								}
+							});
+					}
+				}
+			}	
 		});
 });
 
