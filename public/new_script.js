@@ -77,6 +77,11 @@ window.onload = function(){
 		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
 	}
 	
+	//Enable snippets
+	$("input[id^='_snippet_']").each(function (i, el) {
+		console.log(el);
+    });
+	
 	//Set default text in editor
 	editor.setValue("pavlok.vibrate(50);");
 };
