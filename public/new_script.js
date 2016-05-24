@@ -78,9 +78,9 @@ window.onload = function(){
 	}
 	
 	//Enable snippets
-	$("input[id^='_snippet_']").each(function (i, el) {
-		console.log(el);
-    });
+	$('*[id^=_snippet]').each(function(i, el) {
+		console.log(i + " " + $(this).attr('id'));
+	});
 	
 	//Set default text in editor
 	editor.setValue("pavlok.vibrate(50);");
