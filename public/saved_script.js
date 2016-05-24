@@ -104,7 +104,7 @@ function postEditorInit(){
 	$("#share-email-button").click(function() {
 		var email = $("#email-address").val()
 		if(email == null || email.length < 1){
-			$('#email-address').tooltip({ title: "You must enter a filename." })
+			$('#email-address').tooltip({ title: "You must enter an e-mail address." })
 			$('#email-address').focus();
 			return;
 		}

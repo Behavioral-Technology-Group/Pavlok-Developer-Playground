@@ -35,7 +35,8 @@ app.use(function(req, res, next){
 	//proceed to the next route
 	if(req.url != "/" && req.url != "/context.js" && req.url != "/index.html" 
 		&& req.url != "/save_file" && req.url != "/update_file" 
-		&& !req.url.startsWith("/file/") && req.url != "/delete_file"){
+		&& !req.url.startsWith("/file/") && req.url != "/delete_file"
+		&& req.url != "/share_file"){
 		next();
 		return;
 	}
