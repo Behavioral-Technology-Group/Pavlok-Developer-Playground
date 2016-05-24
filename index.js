@@ -67,7 +67,7 @@ app.use(function(req, res, next){
 	}
 });
 nunjucks.configure("views", {
-	autoescape: true,
+	autoescape: false,
 	express: app
 });
 
