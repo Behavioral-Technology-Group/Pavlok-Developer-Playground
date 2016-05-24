@@ -320,7 +320,46 @@ app.post("/save_file", function(req, res){
 		});
 });
 
-//Update a file's code
+//Create a share grant
+//Create a function that's a pyramid
+app.post("/share_file", function(req, res){
+	if(req.body.fid == null || req.body.email == null){
+		res.status(400).send();
+		return;
+	}
+
+	var fileId = req.body.fid;
+	var userEmail = req.body.email;
+
+	setupQuery("SELECT * FROM Files WHERE fid=$1 AND owner=$2", [fileId, req.pavuser.uid], function(err, rows){
+		if(err || rows.length == 0){
+			res.json( { status: "error", message: "You don't have access to this file!" } );
+		} else {
+			setupQuery("SELECT * FROM Users WHERE email=$1", [userEmail], function(err, rows){
+				if(err || rows.length == 0){
+					res.json( { status: "error", message: userEmail + " hasn't signed in with the Pavlok Developer Playground yet, so you can't share files with them." } );
+				} else {
+					var grantee = rows[0].uid;
+					setupQuery("SELECT * FROM Shared_With WHERE grantee=$1 AND file_id=$2", [grantee, fileId], function(err, rows){
+						if(err || rows.length > 0){
+							res.json( { status: "warning", message: "You've already shared this file with " + userEmail + "." } );
+						} else {
+							setupQuery("INSERT INTO Shared_With (grantee, file_id, owner) VALUES ($1, $2, $3)", [grantee, fileId, req.pavuser.uid], function(err, rows){
+								if(err){
+									res.json( { status: "error", message: JSON.stringify(err) } );
+								} else {
+									res.json( { status: "ok", message: "File shared with " + userEmail + "." } );
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+//Update a file's code or share type
 app.post("/update_file", function(req, res){
 	var sql = "UPDATE Files SET ";
 	var sqlParams = [];
