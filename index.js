@@ -131,11 +131,7 @@ pavlok.init(
 	}
 );
 
-//Tweak the Pavlok object to enable getting the token
-pavlok.getToken = function(request){
-	return request.session.pavlok_token;
-};
-
+//Helper function for executing PostgreSQL queries
 function setupQuery(queryText, params, callback){
 	var query = client.query(queryText, params);
 	query.on('row', function(row, result){
@@ -204,11 +200,53 @@ app.get("/success", function(req, res){
 	});
 });
 
+function fetchFiles(uid){
+	setupQuery("SELECT * FROM Files WHERE owner=$1",
+		[ uid ],
+		function(error, rows){
+			if(error){
+				return [];
+			} else {
+				var files = [];
+				for(var i = 0; i < rows.length; i++){
+					var fname = rows[i].fname;
+					var fid = rows[i].fid;
+
+					files.push({ name: fname, id: fid });
+				}
+				return files;
+			}
+		});
+}
+
+function fetchSharedFiles(uid){
+	setupQuery("SELECT * FROM Files f INNER JOIN Shared_With s ON f.fid=s.fid"
+		+ " INNER JOIN Users u ON f.owner=u.uid WHERE s.grantee=$1",
+		[uid],
+		function(error, rows){
+			if(error){
+				return [];
+			} else {
+				var files = [];
+				for(var i = 0; i < rows.length; i++){
+					var fname = rows[i].fname;
+					var fid = rows[i].fid;
+					var granter = rows[i].email; //TODO: Will FAIL under current schema!
+
+					files.push({ name: fname, id: fid, granter: granter });	
+				}
+				return files;
+			}
+		});
+}
+
 function serveNewFile(req, res){
 	return res.render("new_file.html", {
 		name: req.pavuser.name,
 		uid: req.pavuser.uid,
-		code: req.pavuser.code
+		code: req.pavuser.code,
+		ownedFiles: fetchOwnedFiles(req.pavuser.uid),
+		sharedFiles: fetchSharedFiles(req.pavuser.uid)
 	});
 }
 
@@ -229,6 +267,8 @@ app.get("/file/:fname", function(req, res, next){
 					name: req.pavuser.name,
 					uid: req.pavuser.uid,
 					code: req.pavuser.code,
+					ownedFiles: fetchOwnedFiles(req.pavuser.uid),
+					sharedFiles: fetchSharedFiles(req.pavuser.uid),
 					fileName: rows[0].fname,
 					content: escape(rows[0].code),
 					fid: rows[0].fid
