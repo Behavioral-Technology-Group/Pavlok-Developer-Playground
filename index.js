@@ -51,7 +51,7 @@ app.use(function(req, res, next){
 		setupQuery("SELECT * FROM Session s INNER JOIN Users u ON u.uid=s.uid WHERE session_id=$1",
 			[req.session.sid || req.query.sid],
 			function(error, rows){
-				if(error){
+				if(error || rows.length < 1){
 					console.log("Session fetch error from SID!");
 					pavlok.auth(res, req);
 				} else {
