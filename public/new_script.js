@@ -35,12 +35,6 @@ function postEditorInit(){
 		$("#save-modal").modal("hide");	
 	});
 	
-	editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-		lineNumbers: true,
-		mode: "javascript",
-		lineWrapping: true
-	});
-	
 	//Set default text in editor
 	editor.setValue("//Write your code here! If you're stuck, try a snippet");
 };
