@@ -36,13 +36,7 @@ function sendRequest(){
 
 function insertSnippet(snippetId){
 	if(snippetDictionary[snippetId] !== undefined){
-		var code = editor.getValue();
-		var lastChar = code.length < 1 ? "" : code.substring(code.length - 1, code.length);
-		if(code.length == 0 || lastChar == "\n" || lastChar == "\t" || lastChar == " "){
-			editor.setValue(code + snippetDictionary[snippetId]);
-		} else {
-			editor.setValue(code + "\n" + snippetDictionary[snippetId]);
-		}
+		editor.replaceSelection(snippetDictionary[snippetId]);
 	}
 }
 
