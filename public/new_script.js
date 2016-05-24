@@ -47,6 +47,10 @@ function saveFile(filename){
 	});
 };
 
+function insertSnippet(snippetId){
+	console.log(snippetId);
+}
+
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
@@ -80,8 +84,9 @@ window.onload = function(){
 	//Enable snippets
 	$('*[id^=_snippet_]').each(function(i, el) {
 		$(this)[0].addEventListener("click", function(e) {
-			console.log(e);
-			console.log(this);
+			var snippetId = this.id.replace("_snippet_", "");
+			insertSnippet(snippetId);
+			$("#snippets-modal").modal("hide");
 		}); 
 	});
 	
