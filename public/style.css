@@ -25,6 +25,7 @@
 }
 
 #block-bar {
+	display: block;
 }
 
 #file-listings {
