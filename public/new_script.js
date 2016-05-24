@@ -29,6 +29,7 @@ function postEditorInit(){
 		var filename = $("#file-name").val()
 		if(filename == null || filename.length < 1){
 			$('#file-name').tooltip({ title: "You must enter a filename." })
+			$('#file-name').focus();
 			return;
 		}
 		saveFile(filename);

@@ -60,7 +60,32 @@ function changeVisibility(visibility){
 		fileCtx.visibility = visibility;
 		$("#share-public").text(fileCtx.visibility == "public" ? "Make Private" : "Make Public");
 	});
-	
+}
+
+function shareByEmail(){
+	$.ajax({
+		method: "POST",
+		url: "/share_file",
+		header: {
+			"Cookie": document.cookie
+		},
+		data: {
+			fid: fileCtx.id,
+			email: $("#email-address").val()
+		}
+	})
+	.fail(function(xhr, status, error){
+		toastr.error("Failed to share file.");
+	})
+	.done(function(message){
+		if(message.status == "ok"){
+			toastr.success(message.message);
+		} else if (message.status == "warn"){
+			toastr.warning(message.message);
+		} else {
+			toastr.error(message.message);
+		}		
+	});
 }
 
 function postEditorInit(){
@@ -74,6 +99,17 @@ function postEditorInit(){
 	
 	$("#share-public").click(function() {
 		changeVisibility(fileCtx.visibility == "public" ? "private" : "public");
+	});
+	
+	$("#share-email-button").click(function() {
+		var email = $("#email-address").val()
+		if(email == null || email.length < 1){
+			$('#email-address').tooltip({ title: "You must enter a filename." })
+			$('#email-address').focus();
+			return;
+		}
+		shareByEmail();
+		$("#share-modal").modal("hide");
 	});
 	
 	$("#delete").click(function() {
