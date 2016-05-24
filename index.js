@@ -185,8 +185,8 @@ app.get("/success", function(req, res){
 							});	
 					} else {
 						//Insert the user
-						setupQuery("INSERT INTO Users(uid, name, token) VALUES ($1, $2, $3)",
-							[meResponse.uid, meResponse.name, token],
+						setupQuery("INSERT INTO Users(uid, name, email, token) VALUES ($1, $2, $3, $4)",
+							[meResponse.uid, meResponse.name, meResponse.email, token],
 							function(error, rows){
 								if(error){
 									res.status(500).send("Failed to insert the user!");
@@ -231,7 +231,7 @@ function fetchSharedFiles(uid){
 				for(var i = 0; i < rows.length; i++){
 					var fname = rows[i].fname;
 					var fid = rows[i].fid;
-					var granter = rows[i].email; //TODO: Will FAIL under current schema!
+					var granter = rows[i].email; 
 
 					files.push({ name: fname, id: fid, granter: granter });	
 				}
