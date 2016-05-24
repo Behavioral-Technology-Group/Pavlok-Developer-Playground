@@ -96,7 +96,7 @@ window.onload = function(){
 	}
 	
 	//Set file name
-	$("#file-menu-button").html(fileCtx.fileName + "<span class=\"caret\"></span>");
+	$("#file-menu-button").html(fileCtx.fileName + " <span class=\"caret\"></span>");
 	
 	//Set file text in editor
 	editor.setValue(unescape(fileCtx.content));
