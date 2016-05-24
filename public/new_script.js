@@ -47,13 +47,6 @@ function saveFile(filename){
 	});
 };
 
-function showSnippet(e){
-	var snippetId = e.target.id;
-	var snippet = snippetId.replace("_snippet_", "");
-	console.log(snippet);
-	console.log(e);
-}
-
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
@@ -86,7 +79,10 @@ window.onload = function(){
 	
 	//Enable snippets
 	$('*[id^=_snippet_]').each(function(i, el) {
-		$(this)[0].addEventListener("click", function(e) { showSnippet(e); }); 
+		$(this)[0].addEventListener("click", function(e) {
+			console.log(e);
+			console.log(this);
+		}); 
 	});
 	
 	//Set default text in editor
