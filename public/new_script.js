@@ -1,5 +1,14 @@
 var editor = null;
 
+var snippetDictionary = {
+	zap: "pavlok.zap(50);",
+	beep: "pavlok.beep(50);",
+	vibrate: "pavlok.vibrate(50);",
+	loginfo: "log.info(\"Informative message!\");",
+	logerror: "log.error(\"Error message!\");",
+	logwarn: "log.warn(\"Warning message!\");"
+};
+
 function sendRequest(){
 	//(1) Fetch contents of textarea
 	var code = editor.getValue();
@@ -48,7 +57,14 @@ function saveFile(filename){
 };
 
 function insertSnippet(snippetId){
-	console.log(snippetId);
+	if(snippetDictionary[snippetId] !== undefined){
+		var code = editor.getValue();
+		if(code.length == 0 || code.substring(code.length - 1, code.length) == "\n"){
+			editor.setValue(code + snippetDictionary[snippetId]);
+		} else {
+			editor.setValue(code + "\n" + snippetDictionary[snippetId]);
+		}
+	}
 }
 
 window.onload = function(){
