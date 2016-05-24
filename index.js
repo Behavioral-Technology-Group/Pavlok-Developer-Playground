@@ -216,6 +216,7 @@ function fetchOwnedFiles(uid){
 
 					files.push({ name: fname, id: fid });
 				}
+				console.log("Returning " + JSON.stringify(files));
 				return files;
 			}
 		});
