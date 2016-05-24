@@ -240,6 +240,8 @@ function fetchSharedFiles(uid){
 }
 
 function serveNewFile(req, res){
+	var ownedFiles = fetchOwnedFiles(req.pavuser.uid);
+	console.log(JSON.stringify(ownedFiles));
 	return res.render("new_file.html", {
 		name: req.pavuser.name,
 		uid: req.pavuser.uid,
