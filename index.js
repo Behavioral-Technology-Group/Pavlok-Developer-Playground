@@ -266,8 +266,8 @@ app.get("/file/:fname", function(req, res, next){
 					name: req.pavuser.name,
 					uid: req.pavuser.uid,
 					code: req.pavuser.code,
-					ownedFiles: fetchOwnedFiles(req.pavuser.uid),
-					sharedFiles: fetchSharedFiles(req.pavuser.uid),
+					ownedFiles: JSON.stringify(fetchOwnedFiles(req.pavuser.uid)),
+					sharedFiles: JSON.stringify(fetchSharedFiles(req.pavuser.uid)),
 					fileName: rows[0].fname,
 					content: escape(rows[0].code),
 					fid: rows[0].fid
