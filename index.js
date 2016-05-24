@@ -243,11 +243,13 @@ function fetchSharedFiles(uid){
 }
 
 function serveNewFile(req, res){
+	var owned = JSON.stringify(fetchOwnedFiles(req.pavuser.uid));
+	console.log("Sending " + owned);
 	return res.render("new_file.html", {
 		name: req.pavuser.name,
 		uid: req.pavuser.uid,
 		code: req.pavuser.code,
-		ownedFiles: JSON.stringify(fetchOwnedFiles(req.pavuser.uid)),
+		ownedFiles: owned,
 		sharedFiles: JSON.stringify(fetchSharedFiles(req.pavuser.uid))
 	});
 }
