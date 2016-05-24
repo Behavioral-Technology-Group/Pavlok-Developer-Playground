@@ -47,11 +47,6 @@ function saveFile(filename){
 	});
 };
 
-function changeFile(e){
-	var id = e.target.id.replace("file_", "");
-	window.location.replace("/file/" + id);
-}
-
 window.onload = function(){
 	$("#run").click(function() {
 		sendRequest();
@@ -76,13 +71,10 @@ window.onload = function(){
 	//Populate file listings
 	for(var i = 0; i < pavCtx.ownedFiles.length; i++){
 		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
-		//$("#file-menu").append("<li><a href=\"#\" id=\"file_" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
-		//$("#file_" + pavCtx.ownedFiles[i].id).click(changeFile);
 	}
 	$("#file-menu").append("<li class=\"dropdown-header\">Shared Files</li>");
 	for(var i = 0; i < pavCtx.sharedFiles.length; i++){
-		$("#file-menu").append("<li><a href=\"#\" id=\"file_" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
-		$("#file_" + pavCtx.sharedFiles[i].id).click(changeFile);
+		$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
 	}
 	
 	//Set default text in editor
