@@ -2,6 +2,13 @@
 
 {% block headerFiles %}
 	<script src="/shared_script.js"></script>
+	<script type="text/javascript">
+		var fileCtx = {
+			fileName: "{{ fileName }}",
+			content: "{{ content }}",
+			id: "{{ fid }}"
+		};
+	</script>
 {% endblock %}
 
 {% block topLayout %}

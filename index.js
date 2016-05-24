@@ -299,8 +299,8 @@ app.get("/file/:fname", function(req, res, next){
 							uid: req.pavuser.uid,
 							code: req.pavuser.code,
 							email: req.pavuser.email,
-							ownedFiles: [],
-							sharedFiles: [],
+							ownedFiles: JSON.stringify([]),
+							sharedFiles: JSON.stringify([]),
 							fileName: rows[0].fname,
 							content: escape(rows[0].code),
 							fid: rows[0].fid
@@ -322,8 +322,8 @@ app.get("/file/:fname", function(req, res, next){
 										code: req.pavuser.code,
 										email: req.pavuser.email,
 										fileName: rows[0].fname,
-										ownedFiles: [],
-										sharedFiles: [],
+										ownedFiles: JSON.stringify([]),
+										sharedFiles: JSON.stringify([]),
 										content: escape(rows[0].code),
 										fid: rows[0].fid
 									});
