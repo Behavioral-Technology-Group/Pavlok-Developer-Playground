@@ -86,7 +86,7 @@ window.onload = function(){
 	
 	//Enable snippets
 	$('*[id^=_snippet_]').each(function(i, el) {
-		$(this).click(function(e) { showSnippet(e); }); 
+		$(this)[0].addEventListener("click", function(e) { showSnippet(e); }); 
 	});
 	
 	//Set default text in editor
