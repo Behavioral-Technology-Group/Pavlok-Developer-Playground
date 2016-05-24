@@ -268,7 +268,7 @@ app.get("/", serveNewFile);
 app.get("/file/:fname", function(req, res, next){
 	//Try and get file
 	setupQuery("SELECT * FROM Files WHERE fid=$1",
-		[ req.params.fname, req.pavuser.uid ],
+		[ req.params.fname ],
 		function(error, rows){
 			if(error || rows.length == 0){
 				res.status(404);
