@@ -467,7 +467,9 @@ app.get("/logout", function(req, res){
 	if(pavlok.isLoggedIn(req)){
 		pavlok.logout(req);
 		req.session.sid = null;
-		return res.status(200).send("Logged out.");
+		return res.render("error.html", {
+			message: "Logged out. (You probably want to sign out <a href=\"https://pavlok-mvp.herokuapp.com/users/sign_out\">here</a> too)."
+		});
 	} else {
 		return res.status(404).send("You weren't signed in.");
 	}
