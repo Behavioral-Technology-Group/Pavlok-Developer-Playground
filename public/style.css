@@ -42,6 +42,12 @@
 	float: right;
 }
 
+#legal {
+	text-align: center;
+	margin-top: 1.5em;
+	font-size: 0.8em;
+}
+
 #logs {
 	display: block;
 	margin-top: 1em;
@@ -65,5 +71,4 @@
 
 .log-warn {
 	color: #F27979;
-
 }
