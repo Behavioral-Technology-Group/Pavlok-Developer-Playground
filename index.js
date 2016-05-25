@@ -107,6 +107,7 @@ function establishSession(req, res, meResponse){
 							req.pavuser = { 
 								uid: meResponse.uid,
 								name: meResponse.name,
+								email: meResponse.email,
 								code: req.session.pavlok_token	
 							};
 							serveNewFile(req, res);
