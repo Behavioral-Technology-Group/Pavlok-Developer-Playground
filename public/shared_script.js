@@ -7,7 +7,7 @@ function copyFile(){
 		},
 		data: {
 			uid: pavCtx.uid,
-			code: fileCtx.content,
+			code: unescape(fileCtx.content), //fileCtx.content is the escaped code; unescape it when saving
 			fname: fileCtx.fileName
 		}
 	})

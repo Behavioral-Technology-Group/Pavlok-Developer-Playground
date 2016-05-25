@@ -355,9 +355,9 @@ app.post("/save_file", function(req, res){
 		[uid, fname, code, shareType],
 		function(error, rows){
 			if(rows.length > 0){
-				res.status(200).json( { error: null, "fid": rows[0].fid } );
+				res.status(200).json( { status: "ok", error: null, "fid": rows[0].fid } );
 			} else {
-				res.status(500).json( { error: error } );
+				res.status(500).json( { status: "error", error: error } );
 			}
 		});
 });
