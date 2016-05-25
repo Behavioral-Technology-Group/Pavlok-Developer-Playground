@@ -48,13 +48,17 @@ window.onload = function(){
 	});
 	
 	//Populate file listings
+	var currentFileId = "-1";
+	try { currentFileId = fileCtx.id; } catch(e) {} //Need try/catch for new files
 	if($("#file-menu")[0] !== undefined){
 		for(var i = 0; i < pavCtx.ownedFiles.length; i++){
-			$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
+			if(currentFileId != pavCtx.ownedFiles[i].id)
+				$("#file-menu").append("<li><a href=\"/file/" + pavCtx.ownedFiles[i].id + "\">" + pavCtx.ownedFiles[i].name + "</a></li>");
 		}
 		$("#file-menu").append("<li class=\"dropdown-header\">Shared Files</li>");
 		for(var i = 0; i < pavCtx.sharedFiles.length; i++){
-			$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
+			if(currentFileId != pavCtx.sharedFiles[i].id)
+				$("#file-menu").append("<li><a href=\"/file/" + pavCtx.sharedFiles[i].id + "\">" + pavCtx.sharedFiles[i].name + "</a></li>");
 		}
 	}
 	
