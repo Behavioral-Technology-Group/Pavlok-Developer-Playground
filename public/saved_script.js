@@ -62,6 +62,28 @@ function changeVisibility(visibility){
 	});
 }
 
+function renameFile(title){
+	$.ajax({
+		method: "POST",
+		url: "/update_file",
+		header: {
+			"Cookie": document.cookie
+		},
+		data: {
+			fid: fileCtx.id,
+			file_name: title
+		}
+	})
+	.fail(function(xhr, status, error){
+		toastr.error("Failed to rename file.");
+	})
+	.done(function(message){
+		toastr.success("File renamed.");
+		fileCtx.fileName = title;
+		$("#file-menu-button").html(title + " <span class=\"caret\"></span>");
+	});
+}
+
 function shareByEmail(){
 	$.ajax({
 		method: "POST",
@@ -114,6 +136,17 @@ function postEditorInit(){
 	
 	$("#delete").click(function() {
 		deleteFile();
+	});
+	
+	$("#rename").click(function() {
+		var name = $("#rename-title").val();
+		if(name == null || name.length < 1){
+			$('#rename-title').tooltip({ title: "You must enter a valid title." });
+			$('#rename-title').focus();
+			return;
+		}
+		renameFile(name);
+		$("#rename-modal").modal("hide");
 	});
 	
 	//Set visibility button

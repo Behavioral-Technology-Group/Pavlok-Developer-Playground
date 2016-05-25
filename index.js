@@ -421,6 +421,11 @@ app.post("/update_file", function(req, res){
 		sqlParams.push(req.body.code);
 	}
 
+	if(req.body.file_name != null){
+		sql += "fname=$" + (sqlParams.length + 1);
+		sqlParams.push(req.body.file_name);
+	}
+
 	sql += " WHERE owner=$" + (sqlParams.length + 1) + " AND fid=$" + (sqlParams.length + 2);
 	sqlParams.push(req.pavuser.uid);
 	sqlParams.push(req.body.fid);
