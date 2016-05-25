@@ -133,6 +133,11 @@ pavlok.init(
 	}
 );
 
+//Attributions page
+app.get("/attributions.html", function(req, res){
+	return res.render("attributions.html");
+});
+
 //Helper function for executing PostgreSQL queries
 function setupQuery(queryText, params, callback){
 	var query = client.query(queryText, params);
