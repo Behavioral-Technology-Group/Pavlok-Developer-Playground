@@ -34,6 +34,10 @@
 	float: left;
 }
 
+#shared-file {
+	font-weight: bold;
+}
+
 #upper-buttons {
 	float: right;
 }
