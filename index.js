@@ -137,8 +137,8 @@ function establishSession(req, res, meResponse) {
 
 //Initialize the app
 pavlok.init(
-  "e51e69b8cf6e2c0ecd572e711f52be535a360c368ceef3cc949591a85aae3864",
-  "afda223c6d9731eb71c6b4c1586ddf748ff7e3a9240e9358b9f49f5dad337cc1",
+  "212394dadd49c39c42d1135095f4fdf6fdb1f20675910e8aa73eab8cdca316cf",
+  "6b5afef28d37acb1f7f18974654e00688122d422cd56c7ac6d5603e7f823fffc",
   {
     verbose: true,
     app: app,
